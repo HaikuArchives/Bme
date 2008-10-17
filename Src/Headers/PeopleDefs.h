@@ -1,0 +1,61 @@
+#ifndef PEOPLE_DEFS_H
+#define PEOPLE_DEFS_H
+
+/**	These defines were include in the Mr Peeps program by Darkwyrm.
+	Mr Peeps was developed under an MIT/BSD licence.
+ */
+#define K_PERSON_FILE_TYPE			"application/x-person"
+
+#define K_PERSON_NAME				"META:name"
+#define K_PERSON_FIRSTNAME			"META:firstname"
+#define K_PERSON_LASTNAME			"META:lastname"
+#define K_PERSON_TITLE				"META:title"
+#define K_PERSON_NICKNAME			"META:nickname"
+#define K_PERSON_EMAIL				"META:email"
+#define K_PERSON_URL				"META:url"
+#define K_PERSON_HOME_PHONE			"META:hphone"
+#define K_PERSON_WORK_PHONE			"META:wphone"
+#define K_PERSON_CELL_PHONE			"META:cell"
+#define K_PERSON_FAX				"META:fax"
+#define K_PERSON_ADDRESS			"META:address"
+#define K_PERSON_ADDRESS2			"META:address2"
+#define K_PERSON_CITY				"META:city"
+#define K_PERSON_STATE				"META:state"
+#define K_PERSON_ZIP				"META:zip"
+#define K_PERSON_COUNTRY			"META:country"
+#define K_PERSON_BIRTHDAY			"META:birthday"
+#define K_PERSON_ANNIVERSARY		"META:anniversary"
+#define K_PERSON_GROUP				"META:group"
+#define K_PERSON_SPOUSE				"META:spouse"
+#define K_PERSON_CHILDREN			"META:children"
+#define K_PERSON_ASSISTANT			"META:assist"
+#define K_PERSON_ASSISTANT_PHONE	"META:assistphone"
+#define K_PERSON_MSN				"META:msn"
+#define K_PERSON_JABBER				"META:jabber"
+#define K_PERSON_ICQ				"META:icq"
+#define K_PERSON_ICQ_UIN			"META:icquin"
+#define K_PERSON_YAHOO				"META:yahoo"
+#define K_PERSON_AIM				"META:aim"
+#define K_PERSON_EMAIL3				"META:email3"
+#define K_PERSON_EMAIL4				"META:email4"
+#define K_PERSON_EMAIL5				"META:email5"
+
+#define K_PERSON_OTHER_URL			"META:url3"
+#define K_PERSON_NOTES				"META:notes"
+
+#define K_PERSON_WORK_EMAIL			"META:email2"
+#define K_PERSON_WORK_CELL			"META:wcphone"
+#define K_PERSON_WORK_COUNTRY		"META:wcountry"
+#define K_PERSON_WORK_CITY			"META:wcity"
+#define K_PERSON_WORK_ADDRESS		"META:waddress"
+#define K_PERSON_WORK_URL			"META:url2"
+#define K_PERSON_PAGER				"META:pager"
+#define K_PERSON_WORK_FAX			"META:wfax"
+#define K_PERSON_WORK_ZIP			"META:wzip"
+#define K_PERSON_WORK_STATE			"META:wstate"
+#define K_PERSON_WORK_ADDRESS2		"META:waddress2"
+#define K_PERSON_POSITION			"META:position"
+#define K_PERSON_COMPANY			"META:company"
+#define K_PERSON_PHOTO				"META:photo"
+
+#endif

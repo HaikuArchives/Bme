@@ -1,0 +1,93 @@
+<status>
+Status/online-19.png			Online	NLN	1	{109,218,109}
+Status/busy-19.png			Busy	BSY	1	{166,83,83}
+Status/away-19.png			Away		AWY	1	{201,238,201}
+Status/offline2.gif			Idle	IDL	0	{223,220,200}
+Status/berightback-19.png	Be right back	BRB	1	{201,238,201}
+Status/on-phone.gif		On the phone	PHN	1	{201,238,201}
+Status/out-for-lunch.gif		Out for lunch	LUN	1	{201,238,201}
+Status/offline-19.png			Appear Offline	HDN	1	{224,137,137}
+Status/offline-19.png			Offline	FLN	0	{224,137,137}
+Status/offline-64.png			Offline	FLN	0	{224,137,137}
+</status>
+<emoticons>
+Standard/001.png		Smiley	:-) :)
+Standard/002.png		Open-mouthed smiley	:-D :d
+Standard/003.png		Winking smiley	;-) ;)
+Standard/004.png		Surprised smiley	:-O :o
+Standard/005.png		Smiley with tongue out	:-P :p
+Standard/006.png		Hot smiley	(H) (h)
+Standard/007.png		Angry smiley	:-@ :@
+Standard/008.png		Embarrassed smiley	:-$ :$
+Standard/009.png		Confused smiley	:-S :s
+Standard/010.png		Sad smiley	:-( :(
+Standard/011.png		Crying smiley	:'(
+Standard/012.png		Disappointed smiley	:-| :|
+Standard/013.png		Devil smiley		(6)
+Standard/014.png		Angel smiley	(A) (a)
+Standard/015.png		Red heart	(L) (l)
+Standard/016.png		Broken heart	(U) (u)
+Standard/017.png		MSN Messenger icon	(M) (m)
+Standard/018.png		Cat	(@)
+Standard/19.jpeg		Dog	(&)
+Standard/020.png		Half-moon	(S)
+Standard/021.png		Star	(*)
+Standard/022.png		Film Strip	(~)
+Standard/023.png		Musical eighth note	(8)
+Standard/024.png		Envelope	(E) (e)
+Standard/025.png		Red rose	(F) (f)
+Standard/026.png		Wilted rose	(W) (w)
+Standard/27.jpeg		Clock	(O) (o)
+Standard/028.png		Red lips	(K) (k)
+Standard/29.jpeg		Gift with bow	(G) (g)
+Standard/30.gif		Birthday cake	(^)
+Standard/31.jpeg		Camera	(P) (p)
+Standard/32.jpeg		Light bulb	(I) (i)
+Standard/33.jpeg		Coffee cup	(C) (c)
+Standard/34.jpeg		Telephone receiver	(T) (t)
+Standard/35.jpeg		Left hug	({)
+Standard/36.jpeg		Right hug	(})
+Standard/37.jpeg		Beer mug	(B) (b)
+Standard/38.jpeg		Martini glass	(D) (d)
+Standard/39.jpeg		Boy	(Z) (z)
+Standard/40.jpeg		Girl	(X) (x)
+Standard/41.jpeg		Thumbs up	(Y) (y)
+Standard/42.jpeg		Thumbs down	(N) (n)
+Standard/43.gif		Vampire bat	:-[ :[
+Standard/44.jpeg		Age sex location	(?)
+Standard/45.jpeg		Handcuffs	(%)
+Standard/46.jpeg		Sun	(#)
+Standard/47.jpeg		Rainbow	(R) (r) 
+Standard/48.jpeg		Don't tell anyone smiley	:-#
+Standard/49.jpeg		Baring teeth smiley	8o|
+Standard/50.jpeg		Nerd smiley	8-|
+Standard/051.png		Sarcastic smiley	^o)
+Standard/52.jpeg		Secret telling smiley	:-*
+Standard/53.jpeg		Sick smiley	+o(
+Standard/54.jpeg		Snail	(sn)
+Standard/55.jpeg		Turtle		(tu)
+Standard/56.jpeg		Dinner plate	(pl)
+Standard/57.jpeg		Bowl	(||)
+Standard/58.jpeg		Pizza	(pi)
+Standard/59.jpeg		Soccer Ball	(so)
+Standard/60.jpeg		Auto	(au)
+Standard/61.jpeg		Airplane	(ap)
+Standard/62.jpeg		Umbrella	(um)
+Standard/63.jpeg		Island with a palm tree	(ip)
+Standard/64.gif		Computer	(co)
+Standard/65.jpeg		Mobile Phone	(mp)
+Standard/66.jpeg		Be Right Back	(brb)
+Standard/67.jpeg		Stormy	(st)
+Standard/68.jpeg		Fingers crossed	(yn)
+Standard/69.jpeg		High five!	(h5)
+Standard/70.jpeg		Money	(mo)
+Standard/71.jpeg		Black Sheep	(bah)
+Standard/072.png		I don't know smiley	:^)
+Standard/73.gif		Thinking smiley	*-)
+Standard/74.gif		Lightning	(li)
+Standard/75.gif		Party smiley	<:o)
+Standard/76.gif		Eye-rolling smiley	8-)
+Standard/77.gif		Cigarette	(ci)
+Standard/078.png		Sleepy smiley	|-)
+Standard/79.jpeg		X-Box	(xx)
+</emoticons>
