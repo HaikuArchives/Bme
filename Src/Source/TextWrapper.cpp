@@ -116,7 +116,6 @@ void TextWrapper::DrawTextWithWrapping(BRect enclosingRect, TaggedText* text)
 	//calculate where the text should be split up, and where the split up text should be drawn
 	CalculateTextWrapping(enclosingRect,splitText);
 	//loop through the line buffer and draw the tagged text
-	int32 lastIndex = 0;
 	for (int lineIndex = 0; lineIndex < m_lineBuffer->CountLines(); lineIndex++)
 	{
 		//get the next line from the line buffer
@@ -215,3 +214,69 @@ void Line::Add(Tag* tag)
 }
 
 //implementation part of the LineBuffer class
+LineBuffer::LineBuffer()
+{
+	m_lineList = new BList();
+}
+
+LineBuffer::~LineBuffer()
+{
+	//delete the contents of the linebuffer
+	for (int32 i = 0; i < CountLines(); i++)
+	{
+		//delete the first line
+		Line* line = LineAt(0);
+		delete line;
+	}
+	//delete the list itself
+	delete m_lineList;
+}
+		
+float LineBuffer::Height()
+{
+	//calculate the height of this line buffer
+	float bufferHeight = 0;
+	for (int32 i = 0; i < CountLines(); i++)
+	{
+		Line *line = LineAt(i);
+		bufferHeight += line->Height();		
+	}
+	return bufferHeight;
+}
+
+float LineBuffer::Width()
+{
+	//find the maximum width of this line buffer
+	float maxWidth = 0;
+	for (int32 i = 0; i < CountLines(); i++)
+	{
+		Line *line = LineAt(i);
+		float lineWidth = line->Width();
+		if (lineWidth > maxWidth)
+		{
+			maxWidth = lineWidth;
+		}
+	}
+	return maxWidth;
+}
+		
+bool LineBuffer::IsEmpty()
+{
+	return m_lineList->IsEmpty();
+}
+
+int32 LineBuffer::CountLines()
+{
+	return m_lineList->CountItems();
+}
+
+void LineBuffer::AddLine(Line *line)
+{
+	m_lineList->AddItem(line);
+}
+
+Line* LineBuffer::LineAt(int32 index)
+{
+	Line* line = static_cast<Line*>(m_lineList->ItemAt(index));
+	return line;
+}
