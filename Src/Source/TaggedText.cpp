@@ -18,13 +18,32 @@ TaggedText::TaggedText(BString &txt, BList &tagList)
 	m_tags = tagList;
 }
 
-BString TaggedText::getText()
+Tag* TaggedText::Pop()
+{
+	//get the next tag in the Queue
+	Tag* tag = TagQueue::Pop();
+	//find the text belonging to this Tag
+	BString tagText = GetTextForTag(tag);
+	tag->SetText(tagText);
+}
+
+BString TaggedText::GetText()
 {
 	return m_text;
 }
 
-BList& TaggedText::getTags()
+BList& TaggedText::GetTags()
 {
 	return m_tags;
 }
 
+BString	TaggedText::GetTextForTag(Tag* tag)
+{
+	BString textForTag;
+	//find the beginning and end indices for the text this tag says something about
+	int32 startIndex = tag->StartIndex();
+	int32 endIndex = tag->EndIndex();
+	//copy & return only the text belonging to the corresponding tag
+	m_text.CopyInto(textForTag, startIndex, endIndex - startIndex);	
+	return textForTag;
+}

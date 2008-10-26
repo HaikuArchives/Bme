@@ -178,15 +178,15 @@ void AuthenticationHandler::MessageReceived(BMessage *message)
 							//convert displayname from URL-encoded string to normal Be String
 							displayName = Common::decodeURL(displayName);//???
 							//set initial presence
-							/*BMessage *initialPresenceMsg = new BMessage(ProtocolConstants::K_ADD_COMMAND_MESSAGE);
+							BMessage *initialPresenceMsg = new BMessage(ProtocolConstants::K_ADD_COMMAND_MESSAGE);
 							initialPresenceMsg->AddString(K_COMMAND,NotificationMessages::K_CHANGE_STATUS);							
 							initialPresenceMsg->AddString(K_REMAINING_MSG,m_initialStatus);
 							//find client ID 
 							BString clientID;
 							int64 id = 0;
-							prefsLock.Lock();
+							/*prefsLock.Lock();
 							preferences.FindInt64(K_CLIENT_ID,&id);
-							prefsLock.Unlock();							
+							prefsLock.Unlock();	*/						
 							id = ClientIdentification::K_MSNC4;
 							cout << "id= " << id << endl;
 							
@@ -195,7 +195,7 @@ void AuthenticationHandler::MessageReceived(BMessage *message)
 							//add msn object!
 							
 							SendCommandMessageTrID(initialPresenceMsg);
-							*/						
+													
 							//add PingHandler to NS Looper
 							if (Looper()->Lock())
 							{

@@ -133,7 +133,8 @@ void TextWrapper::DrawTextWithWrapping(BRect enclosingRect, TaggedText* text)
 
 TaggedText*	TextWrapper::SplitText(TaggedText* text)
 {
-	const char setOfCharsToEscape[] = {' ','\n','\t'};
+	TaggedText *stringParts = text;
+	/*const char setOfCharsToEscape[] = {' ','\n','\t'};
 	string.CharacterEscape(setOfCharsToEscape, ' ');
 	
 	int32 startOffset = 0;
@@ -149,7 +150,7 @@ TaggedText*	TextWrapper::SplitText(TaggedText* text)
 		
 		startOffset = endOffset + 1;
 	}
-	while (startOffset < string.CountChars());
+	while (startOffset < string.CountChars());*/
 	
 	return stringParts;
 }
