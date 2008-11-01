@@ -21,24 +21,15 @@ class TaggedText : public TagQueue
 {
 	public:
 		TaggedText();
-		TaggedText(BString& txt, BList& tagList);
-		
-		bool				IsEmpty();		
-		void				Add(Tag* tag);
-		Tag*				Pop();
-		
-		BString				getText();
-		BList&				getTags();
+		TaggedText(BList& tagList);
+				
+		BString				GetText();		
 	
 	public:
 		enum {	K_EMOTICON =				0,
 				K_USER_EMOTICON =			1,
-				K_WEB_ADDRESS =				2};
+				K_WEB_ADDRESS =				2};	
 		
-	private:
-		//private variables
-		BString				m_text;
-		BList				m_tags;		
 };
 
 #endif

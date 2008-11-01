@@ -9,6 +9,7 @@ TextWrapper::TextWrapper(BView *enclosingView, WrappingMode wrappingMode)
 				:	m_enclosingView(enclosingView),
 					m_wrappingMode(wrappingMode)
 {
+	m_lineBuffer = new LineBuffer();
 }
 
 TextWrapper::~TextWrapper()
@@ -16,26 +17,26 @@ TextWrapper::~TextWrapper()
 	delete m_lineBuffer;
 }
 
-void TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuffer)
+BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuffer)
 {
 	//loop through elements	
 	do
 	{
 		//get bounding rectangle for each element
 		//try to fit elements on line		
-		Line* currentLine = new Line();		
+		Line* currentLine = new Line(m_enclosingView);		
 		
 		float totalWidth = 0.0f;
 		
 		do
 		{
-			if (!textBuffer->IsEmpty())
-			{
-				Tag* tag = textBuffer->Pop();
+			if (!textBuffer->IsEmpty() && textBuffer->HasNext())
+			{				
+				Tag* tag = textBuffer->Next();
 				//calculate the line width if this tag would be added
-				totalWidth = currentLine->Width() + tag->Bounds().Width();
+				totalWidth = currentLine->Width() + tag->Bounds(m_enclosingView).Width();
 				//calculate the new line height, it's the largest height, if the tag is high the line expands
-				float totalHeight = currentLine->Height() > tag->Bounds().Height() ? currentLine->Height() : tag->Bounds().Height();
+				float totalHeight = currentLine->Height() > tag->Bounds(m_enclosingView).Height() ? currentLine->Height() : tag->Bounds(m_enclosingView).Height();
 				//if the tag still fits on this line, add it			
 				if (totalWidth <= enclosingRect.Width() && totalHeight <= enclosingRect.Height())
 				{
@@ -66,7 +67,7 @@ void TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuf
 		//add the current line to the line buffer
 		m_lineBuffer->AddLine(currentLine);		
 	}
-	while (!textBuffer->IsEmpty());
+	while (textBuffer->HasNext());
 	
 	//if not all elements fit, this happens in case of:
 	//a) K_HEIGHT_FIXED, in which case we should propagate the elements to other lines, 
@@ -82,12 +83,14 @@ void TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuf
 			//loop through all remaining elements and add them to the linebuffer
 			for (int i = 0; i < textBuffer->CountItems(); i++)
 			{
-				Tag *firstTag = textBuffer->Pop();
+				Tag *firstTag = textBuffer->Next();
 				//slowly propagating non-fitting elements to line above		
 				PropagateTags(m_lineBuffer,m_lineBuffer->CountLines(),firstTag);			
 			}
 		}		
 	}	
+	BRect lineBufferBounds(0.0f,0.0f,m_lineBuffer->Width(), m_lineBuffer->Height());
+	return lineBufferBounds;
 }
 
 void TextWrapper::PropagateTags(LineBuffer *buffer, int32 lineIndex, Tag* addTag)
@@ -102,8 +105,8 @@ void TextWrapper::PropagateTags(LineBuffer *buffer, int32 lineIndex, Tag* addTag
 	//else terminating condition, reached the first line in the buffer
 	if (previousLineIndex >= 0)
 	{
-		//remove the first tag of this line and add it to the previous line
-		Tag* firstTag = currentLine->Pop();					
+		//get the first tag of this line and add it to the previous line
+		Tag* firstTag = currentLine->Next();					
 		//call this function with the previous line index and the first tag of the current line
 		PropagateTags(buffer, previousLineIndex, firstTag);
 	}		
@@ -116,17 +119,33 @@ void TextWrapper::DrawTextWithWrapping(BRect enclosingRect, TaggedText* text)
 	//calculate where the text should be split up, and where the split up text should be drawn
 	CalculateTextWrapping(enclosingRect,splitText);
 	//loop through the line buffer and draw the tagged text
+	float topY = enclosingRect.top;
 	for (int lineIndex = 0; lineIndex < m_lineBuffer->CountLines(); lineIndex++)
 	{
 		//get the next line from the line buffer
 		Line *currentLine = m_lineBuffer->LineAt(lineIndex);
+		float lineHeight = currentLine->Height();
+		float leftX = enclosingRect.left;
+		float rightX = enclosingRect.right;
+		float bottomY = topY + lineHeight;
+		BRect lineBounds(leftX, topY, rightX, bottomY); 
 		//loop through the tags in the current line
+		float tagLeftX = leftX;
 		for (int tagIndex = 0; tagIndex	< currentLine->CountItems(); tagIndex++)
 		{
 			//draw each tag in the enclosing view
 			Tag* tag = currentLine->TagAt(tagIndex);
-			tag->DrawTag(m_enclosingView, enclosingRect); //not sure if enclosingRect is necessary
+						
+			BRect tagBounds = lineBounds;
+			tagBounds.left = tagLeftX;
+			float tagRightX = tagLeftX + tag->Bounds(m_enclosingView).Width();
+			float endX = tagRightX < rightX ? tagRightX : rightX;
+			tagBounds.right = endX;			
+			tag->DrawTag(m_enclosingView, tagBounds); 
+			
+			tagLeftX = endX;
 		}
+		topY += lineHeight;
 	}	
 }
 
@@ -155,9 +174,10 @@ TaggedText*	TextWrapper::SplitText(TaggedText* text)
 }
 
 //===============Implementation of Line class===================================================
-Line::Line()
+Line::Line(BView *enclosingView)
 		:	TagQueue(),
-			m_maxHeight(0)			
+			m_maxHeight(0),
+			m_enclosingView(enclosingView)			
 {
 }
 
@@ -177,36 +197,22 @@ float Line::Width()
 	for (int32 i = 0; i < CountItems(); i++)
 	{
 		Tag* tag = TagAt(i);
-		width += tag->Bounds().Width();
+		width += tag->Bounds(m_enclosingView).Width();
 	}
 	return width;
 }
 
-Tag* Line::Pop()
+Tag* Line::Next()
 {
-	Tag* poppedTag = TagQueue::Pop();
-	float tagHeight = poppedTag->Bounds().Height();
-	if (tagHeight >= m_maxHeight)
-	{
-		//calculate new max line height
-		for (int32 i = 0; i < CountItems(); i++)
-		{
-			Tag* tag = TagAt(i);
-			float height = tag->Bounds().Height();
-			if (height > m_maxHeight)
-			{
-				m_maxHeight = height;
-			}
-		}
-	}
-	return poppedTag;
+	Tag* nextTag = TagQueue::Next();	
+	return nextTag;
 }
 
 void Line::Add(Tag* tag)
 {
 	TagQueue::Add(tag);
 	//see if the tag is higher than any other in this line
-	float tagHeight = tag->Bounds().Height();
+	float tagHeight = tag->Bounds(m_enclosingView).Height();
 	if (tagHeight > m_maxHeight)
 	{
 		m_maxHeight = tagHeight;
@@ -215,7 +221,7 @@ void Line::Add(Tag* tag)
 
 //implementation part of the LineBuffer class
 LineBuffer::LineBuffer()
-{
+{				
 	m_lineList = new BList();
 }
 
@@ -225,7 +231,7 @@ LineBuffer::~LineBuffer()
 	for (int32 i = 0; i < CountLines(); i++)
 	{
 		//delete the first line
-		Line* line = LineAt(0);
+		Line* line = LineAt(i);
 		delete line;
 	}
 	//delete the list itself

@@ -6,6 +6,7 @@
 #include "Tag.h"
 
 TagQueue::TagQueue()
+			:	m_currentTagIndex(-1)
 {
 	m_tagList = new BList();
 }
@@ -22,14 +23,51 @@ TagQueue::~TagQueue()
 	//delete list itself
 	delete m_tagList;
 }
-		
-Tag* TagQueue::Pop()
+
+void TagQueue::Rewind()
 {
-	if (!IsEmpty())
+	m_currentTagIndex = -1;
+}
+
+bool TagQueue::HasNext()
+{
+	int32 nextIndex = m_currentTagIndex + 1; 
+	if (!IsEmpty() && nextIndex < CountItems())
 	{
-		int32 firstIndex = 0;
-		Tag* tag = static_cast<Tag*>(m_tagList->RemoveItem(firstIndex));
-		return tag;
+		return true;
+	}
+	return false;
+}
+		
+Tag* TagQueue::Next()
+{
+	if (!IsEmpty() && HasNext())
+	{
+		m_currentTagIndex++;
+		return TagAt(m_currentTagIndex);
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
+bool TagQueue::HasPrevious()
+{
+	int32 previousIndex = m_currentTagIndex - 1; 
+	if (!IsEmpty() && previousIndex > 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+Tag* TagQueue::Previous()
+{
+	if (!IsEmpty() && HasPrevious())
+	{
+		m_currentTagIndex--;
+		return TagAt(m_currentTagIndex);
 	}
 	else
 	{

@@ -12,16 +12,22 @@ class TagQueue
 		TagQueue();
 		virtual				~TagQueue();
 		
-		virtual Tag*			Pop();
+		virtual void			Rewind();
+		virtual bool			HasNext();
+		virtual Tag*			Next();
+		virtual bool			HasPrevious();
+		virtual Tag*			Previous();
+		
 		virtual Tag*			FirstElement();
 		virtual Tag*			TagAt(int32 index);
 		virtual void			Add(Tag* tag);
 		
-		int32				CountItems();
-		bool				IsEmpty();		
+		int32					CountItems();
+		bool					IsEmpty();		
 	
 	private:
-		BList			*m_tagList;
+		int32			m_currentTagIndex;
+		BList			*m_tagList;		
 };
 
 #endif

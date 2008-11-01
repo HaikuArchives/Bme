@@ -25,7 +25,7 @@ class TextWrapper
 		TextWrapper(BView *enclosingView, WrappingMode wrappingMode = K_WIDTH_AND_HEIGHT_FIXED);
 		virtual				~TextWrapper();
 			
-		void 				CalculateTextWrapping(BRect enclosingRect, TaggedText* text);
+		BRect 				CalculateTextWrapping(BRect enclosingRect, TaggedText* text);
 		void 				DrawTextWithWrapping(BRect enclosingRect, TaggedText* text);
 				
 	private:
@@ -42,21 +42,18 @@ class TextWrapper
 class Line : public TagQueue
 {
 	public:
-		Line();
+		Line(BView *enclosingView);
 		virtual			~Line();
 		
 		float			Height();
 		float			Width();
 						
-		virtual Tag*	FirstElement();
-		virtual Tag*	TagAt(int32 index);
-		virtual Tag*	Pop();
-		virtual void	Add(Tag* tag);		
-				
-		int32			CountItems();
+		virtual Tag*	Next();
+		virtual void	Add(Tag* tag);				
 	
 	private:
 		float			m_maxHeight;
+		BView 			*m_enclosingView;
 };
 
 class LineBuffer
@@ -72,6 +69,9 @@ class LineBuffer
 		int32				CountLines();
 		void				AddLine(Line *line);
 		Line*				LineAt(int32 index);
+	
+	private:
+		BList*				m_lineList;			
 };
 	
 #endif
