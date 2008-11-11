@@ -20,36 +20,25 @@ TextWrapper::~TextWrapper()
 BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuffer)
 {
 	//loop through elements	
-	do
+	Line* currentLine = new Line(m_enclosingView);		
+	while (textBuffer->HasNext())
 	{
 		//get bounding rectangle for each element
-		//try to fit elements on line		
-		Line* currentLine = new Line(m_enclosingView);		
-		
-		float totalWidth = 0.0f;
-		
-		do
-		{
-			if (!textBuffer->IsEmpty() && textBuffer->HasNext())
-			{				
-				Tag* tag = textBuffer->Next();
-				//calculate the line width if this tag would be added
-				totalWidth = currentLine->Width() + tag->Bounds(m_enclosingView).Width();
-				//calculate the new line height, it's the largest height, if the tag is high the line expands
-				float totalHeight = currentLine->Height() > tag->Bounds(m_enclosingView).Height() ? currentLine->Height() : tag->Bounds(m_enclosingView).Height();
-				//if the tag still fits on this line, add it			
-				if (totalWidth <= enclosingRect.Width() && totalHeight <= enclosingRect.Height())
-				{
-					currentLine->Add(tag);
-				}			
-			}
-			else
-			{
-				//no more items to wrap
-				break;
-			}
+		//try to fit elements on line
+		float totalWidth = 0.0f;				
+		Tag* tag = textBuffer->Next();
+		//calculate the line width if this tag would be added
+		totalWidth = currentLine->Width() + tag->Bounds(m_enclosingView).Width();
+		//see if the tag still fits on this line, if not add a new line			
+		if (totalWidth > enclosingRect.Width())
+		{				
+			//add the current line to the line buffer
+			m_lineBuffer->AddLine(currentLine);	
+			//create a new line to add the next tags to
+			currentLine = new Line(m_enclosingView);
 		}
-		while (totalWidth <= enclosingRect.Width());
+		//add the tag to the line
+		currentLine->Add(tag);
 		
 		if (m_wrappingMode == K_HEIGHT_FIXED || m_wrappingMode == K_WIDTH_AND_HEIGHT_FIXED)
 		{
@@ -63,11 +52,8 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 				//leave loop early, leaving still some items in the textbuffer
 				break;
 			}
-		}
-		//add the current line to the line buffer
-		m_lineBuffer->AddLine(currentLine);		
-	}
-	while (textBuffer->HasNext());
+		}					
+	}	
 	
 	//if not all elements fit, this happens in case of:
 	//a) K_HEIGHT_FIXED, in which case we should propagate the elements to other lines, 
@@ -117,7 +103,7 @@ void TextWrapper::DrawTextWithWrapping(BRect enclosingRect, TaggedText* text)
 	//split the text up into wrappable text parts
 	TaggedText* splitText = SplitText(text);
 	//calculate where the text should be split up, and where the split up text should be drawn
-	CalculateTextWrapping(enclosingRect,splitText);
+	//CalculateTextWrapping(enclosingRect,splitText); //carried out twice
 	//loop through the line buffer and draw the tagged text
 	float topY = enclosingRect.top;
 	for (int lineIndex = 0; lineIndex < m_lineBuffer->CountLines(); lineIndex++)

@@ -128,13 +128,11 @@ void ConvLogView::AddMessage(ConvMessage *message)
 			//the contact of the new message is the same as the contact of the last message
 			//therefore, treat the message as a follow up
 			ChatMessageItem *chatItem = new ChatMessageItem(message, true);
-			chatItem->SetHeight(10.0f);
 			AddItem(chatItem);
 	}
 	else
 	{
-		ChatMessageItem *chatItem = new ChatMessageItem(message, false);
-		chatItem->SetHeight(10.0f);
+		ChatMessageItem *chatItem = new ChatMessageItem(message, false);		
 		AddItem(chatItem);
 	}
 	//scroll to last item in list

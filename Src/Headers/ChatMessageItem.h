@@ -2,6 +2,7 @@
 #define CHAT_MESSAGE_ITEM_H
 
 #include "MessageItem.h"
+#include "TaggedText.h"
 
 class ChatMessageItem : public MessageItem
 {
@@ -14,9 +15,12 @@ class ChatMessageItem : public MessageItem
 		
 		bool				IsFollowUp();
 		void				SetFollowUp(bool followUp);
+		BRect				ItemBounds();
 	
 	private:
 		bool				m_followUp;
+		TaggedText* 		m_text;
+		BRect				m_bounds;		
 };
 
 #endif

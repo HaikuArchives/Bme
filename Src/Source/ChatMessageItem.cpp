@@ -7,17 +7,26 @@
 #include "ConvMessage.h"
 #include "Contact.h"
 #include "TextWrapper.h"
-#include "TaggedText.h"
 #include "TextTag.h"
 
 ChatMessageItem::ChatMessageItem(ConvMessage* message, bool followUp)
 						:	MessageItem(message),
 							m_followUp(followUp)
 {
+	//draw the message text
+	m_text = new TaggedText();
+	for (int i = 0; i < 100; i++)
+	{
+		m_text->Add(new TextTag("Hello "));
+		m_text->Add(new TextTag("how "));
+		m_text->Add(new TextTag("are "));
+		m_text->Add(new TextTag("you? "));
+	}	
 }
 
 ChatMessageItem::~ChatMessageItem()
 {
+	delete m_text;
 }
 		
 void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything)
@@ -47,20 +56,23 @@ void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything
 		contactText.Append(" says:"); 
 		owner->DrawString(contactText.String(),startPoint);
 		
-		SetHeight(startPoint.y + 10.0f);
+	//	SetHeight(startPoint.y + 10.0f);
 		owner->SetFont(be_plain_font);
 		wrapRect.top = startPoint.y + 10.0f;
 	}	
-	//draw the message text
-	TaggedText* text = new TaggedText();
-	for (int i = 0; i < 100; i++)
+	
+	if (m_bounds.Width() != itemRect.Width())
 	{
-		text->Add(new TextTag("Hello "));
+		m_bounds = wrapper.CalculateTextWrapping(wrapRect,m_text);
+		SetHeight(m_bounds.Height());
+		SetWidth(m_bounds.Width());
 	}
-	BRect rect = wrapper.CalculateTextWrapping(wrapRect,text);
-	SetHeight(rect.Height());
-	SetWidth(rect.Width());
-	wrapper.DrawTextWithWrapping(wrapRect, text);	
+	wrapper.DrawTextWithWrapping(wrapRect, m_text);	
+}
+
+BRect ChatMessageItem::ItemBounds()
+{
+	return m_bounds;
 }
 
 void ChatMessageItem::Update(BView* owner, const BFont* font)
