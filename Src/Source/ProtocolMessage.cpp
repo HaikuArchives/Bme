@@ -9,58 +9,43 @@
 //TODO: change ServerHandler to use these messages
 //TODO: change protocol code to use these messages
 ProtocolMessage::ProtocolMessage(const BString& type)
-					:	BArchivable(),
-						m_msgType(type),
-						m_trId(-1),
+					:	m_commandType(type),												
+						m_hasTrId(false),
+						m_hasPayload(false),
+						m_trId(0),
 						m_payloadSize(0)
 {
-}
-
-ProtocolMessage::ProtocolMessage(BMessage *archive)
-					:	BArchivable(archive)
-{
-	archive->FindString(K_COMMAND,&m_msgType);
-	archive->FindInt32(K_TR_ID, &m_trId);//TODO: no trId, what then?
-	//TODO: K_REMAINING_MSG
-	archive->FindBool("ProtocolMessage::hasPayload",&m_hasPayload);//TODO: needed?
-	archive->FindInt32(K_PAYLOAD_SIZE, &m_payloadSize); 
-	archive->FindString(K_PAYLOAD_DATA,&m_payload);
 }
 
 ProtocolMessage::~ProtocolMessage()
 {
 }
 
-BArchivable* ProtocolMessage::Instantiate(BMessage *archive)
+void ProtocolMessage::SetCommandType(const BString& type)
 {
-	if (validate_instantiation(archive, "ProtocolMessage"))
-      return new ProtocolMessage(archive);
-    return NULL;
+	m_commandType = type;
 }
 
-status_t ProtocolMessage::Archive(BMessage *archive, bool deep) const
+BString ProtocolMessage::CommandType()
 {
-	archive->AddString("class","ProtocolMessage");
-	archive->AddString(K_COMMAND, m_msgType);
-	archive->AddInt32(K_TR_ID, m_trId); //TODO: no trId, what then?
-	//TODO: K_REMAINING_MSG
-	archive->AddBool("ProtocolMessage::hasPayload",m_hasPayload); //TODO: needed?
-	archive->AddInt32(K_PAYLOAD_SIZE, m_payloadSize);
-	archive->AddString(K_PAYLOAD_DATA,m_payload);
-		
-	return B_OK;
+	return m_commandType;
 }
 
-
-void ProtocolMessage::SetType(const BString& type)
+bool ProtocolMessage::HasTrId()
 {
-	m_msgType = type;
+	return m_hasTrId;
 }
 
-BString ProtocolMessage::Type()
+void ProtocolMessage::SetTrId(uint32 trId)
 {
-	return m_msgType;
+	m_trId = trId;
+	m_hasTrId = true;
 }
+
+uint32 ProtocolMessage::TrId()
+{
+	return m_trId;
+}	
 
 bool ProtocolMessage::HasPayload()
 {
@@ -74,14 +59,14 @@ void ProtocolMessage::SetPayload(const BString& payload)
 	m_payloadSize = m_payload.Length();
 } 
 
+BString ProtocolMessage::Payload()
+{
+	return m_payload;
+}
+
 void ProtocolMessage::RemovePayload()
 {
 	m_hasPayload = false;
 	m_payload = "";
 	m_payloadSize = 0;
-}
-
-BString ProtocolMessage::GetPayload()
-{
-	return m_payload;
 }
