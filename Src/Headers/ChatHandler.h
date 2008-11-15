@@ -24,7 +24,7 @@ class ChatHandler : public ServerHandler
 		void				LeftConversation(Contact *contact);
 		
 		void				SendMessage(ChatMessage message);
-		void				ReceiveMessage(Contact* contact, ChatMessage message);	
+		void				ReceivedMessage(Contact* contact, ChatMessage message);	
 };
 
 class ChatFilter : public BMessageFilter

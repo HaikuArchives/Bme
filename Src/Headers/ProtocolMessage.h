@@ -23,33 +23,33 @@ namespace ContentTypes
 			;
 };
 
-class ProtocolMessage : public BArchivable
+class ProtocolMessage
 {
 	public:
-		ProtocolMessage(const BString& type);
-		ProtocolMessage(BMessage *archive);
+		ProtocolMessage(const BString& type);	
 		virtual				~ProtocolMessage();
-
-		//archivable methods
-		static BArchivable*	Instantiate(BMessage *archive);
-		status_t 			Archive(BMessage *archive, bool deep = true) const;
+	
+		void				SetCommandType(const BString& type);
+		BString				CommandType();
 		
-		void				SetType(const BString& type);
-		BString				Type();		
+		bool				HasTrId();
+		void				SetTrId(uint32 trId);
+		uint32				TrId();		
 		
 		bool				HasPayload();
 		void				SetPayload(const BString& payload); 
+		BString				Payload();
 		void				RemovePayload();
-		BString				GetPayload();
 	
 	private:
-		BString				m_msgType,
+		BString				m_commandType,
 							m_payload
 							;
-		bool				m_hasPayload;
-		int32				m_trId,
-							m_payloadSize;		
-		
+		bool				m_hasTrId,
+							m_hasPayload
+							;
+		uint32				m_trId,
+							m_payloadSize;				
 };
 
 #endif
