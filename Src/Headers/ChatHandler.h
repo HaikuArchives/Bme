@@ -6,6 +6,7 @@
 #include <app/MessageFilter.h>
 #include <app/MessageRunner.h>
 #include "ServerHandler.h"
+#include "ChatMessage.h"
 
 class ChatHandler : public ServerHandler
 {
@@ -14,7 +15,16 @@ class ChatHandler : public ServerHandler
 		virtual				~ChatHandler();
 		
 		virtual void		MessageReceived(BMessage *message);	
-	
+		
+		void				SwitchBoardIdle();
+		void				CloseConversation();		
+		void				InviteContact(Contact* contact);
+		void				ContactInvited(Contact *contact);
+		void				ContactJoined(Contact* contact);
+		void				LeftConversation(Contact *contact);
+		
+		void				SendMessage(ChatMessage message);
+		void				ReceiveMessage(Contact* contact, ChatMessage message);	
 };
 
 class ChatFilter : public BMessageFilter

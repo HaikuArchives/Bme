@@ -23,7 +23,7 @@ class SBLooper : public ServerLooper
 		
 		virtual void		init();
 		virtual void		init(BMessage *message);
-		void				SetAuthString(BString authString);
+		void				SetAuthString(BString authString);				
 		
 	private:
 		BString				m_passport,
