@@ -72,7 +72,7 @@ void SBLooper::SetAuthString(BString authString)
 void SBLooper::MessageReceived(BMessage* message)
 {
 	switch (message->what)
-	{				
+	{	
 		default:
 			ServerLooper::MessageReceived(message);
 		break;

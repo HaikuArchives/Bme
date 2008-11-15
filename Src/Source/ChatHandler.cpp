@@ -3,7 +3,6 @@
 #endif
 
 #include "constants.h"
-#include "ChatMessage.h"
 #include "MessageFields.h"
 #include "ProtocolConstants.h"
 
@@ -19,6 +18,46 @@ ChatHandler::~ChatHandler()
 {
 }
 
+void ChatHandler::SwitchBoardIdle()
+{
+}
+
+void ChatHandler::CloseConversation()
+{
+	BMessage *message = new BMessage(ProtocolConstants::K_ADD_COMMAND_MESSAGE);
+	message->AddString(K_COMMAND, SwitchboardMessages::K_LEAVE_SB_SESSION);
+	SendCommandMessage(message);
+}
+
+void ChatHandler::ContactInvited(Contact *contact)						
+{
+}
+
+void ChatHandler::ContactJoined(Contact* contact)
+{
+}
+
+void ChatHandler::LeftConversation(Contact *contact)
+{
+}
+
+void ChatHandler::SendMessage(ChatMessage message)
+{
+	BMessage *message = new BMessage(ProtocolConstants::K_ADD_COMMAND_MESSAGE);
+	message->AddString(K_COMMAND, SwitchboardMessages::K_SWITCHBOARD_MESSAGE);
+	message->AddString(K_REMAINING_MSG, AckTypes::K_NEGATIVE_ACK_TYPE);
+	
+	BString payloadData = message.String();				
+	message->AddInt32(K_PAYLOAD_SIZE, payloadData.Length());
+	message->AddString(K_PAYLOAD_DATA, payloadData);
+	//TODO: build in acknowledgement
+	SendCommandMessageTrID(message);
+}
+
+void ChatHandler::ReceivedMessage(Contact* contact, ChatMessage message)
+{
+}
+
 void ChatHandler::MessageReceived(BMessage *message)
 {
 	switch(message->what)
@@ -31,16 +70,7 @@ void ChatHandler::MessageReceived(BMessage *message)
 			{
 				ChatMessage chatMsg;
 				chatMsg.SetMessageText(messageText);
-				
-				BMessage *message = new BMessage(ProtocolConstants::K_ADD_COMMAND_MESSAGE);
-				message->AddString(K_COMMAND, SwitchboardMessages::K_SWITCHBOARD_MESSAGE);
-				message->AddString(K_REMAINING_MSG, AckTypes::K_NEGATIVE_ACK_TYPE);
-				
-				BString payloadData = chatMsg.String();				
-				message->AddInt32(K_PAYLOAD_SIZE, payloadData.Length());
-				message->AddString(K_PAYLOAD_DATA, payloadData);
-				//TODO: build in acknowledgement
-				SendCommandMessageTrID(message);
+				SendMessage(chatMsg);
 			}		
 		}
 		break;
@@ -70,6 +100,31 @@ void ChatHandler::MessageReceived(BMessage *message)
 				{
 				}
 			}
+		}
+		break;
+		case SwitchboardMessages::K_INVITE_PRINCIPAL:
+		{
+			Contact *contact;
+			ContactInvited(contact);
+		}
+		break;
+		case SwitchboardMessages::K_PRINCIPAL_JOINED:
+		{
+			Contact *contact;
+			ContactJoined(Contact* contact);
+		}
+		break;
+		case SwitchboardMessages::K_PRINCIPAL_LEFT:
+		{
+			Contact *contact;
+			LeftConversation(Contact *contact);
+		}
+		break;
+		case SwitchboardMessages::K_SWITCHBOARD_MESSAGE:
+		{
+			Contact* contact;
+			ChatMessage message; 
+			ReceivedMessage(contact, message);
 		}
 		break;
 		default:

@@ -8,6 +8,10 @@
 #include "MsnMessage.h"
 #endif
 
+//TODO: inherit from BMessage
+//TODO: add convenience methods
+//TODO: change ServerHandler to use these messages
+//TODO: change protocol code to use these messages
 MsnMessage::MsnMessage(BString contentType)				
 				//:	BArchivable()
 {

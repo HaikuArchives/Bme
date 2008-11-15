@@ -4,6 +4,10 @@
 
 #include "MessageFields.h"
 
+//TODO: inherit from BMessage
+//TODO: add convenience methods
+//TODO: change ServerHandler to use these messages
+//TODO: change protocol code to use these messages
 ProtocolMessage::ProtocolMessage(const BString& type)
 					:	BArchivable(),
 						m_msgType(type),
