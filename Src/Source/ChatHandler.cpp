@@ -41,13 +41,13 @@ void ChatHandler::LeftConversation(Contact *contact)
 {
 }
 
-void ChatHandler::SendMessage(ChatMessage message)
+void ChatHandler::SendMessage(ChatMessage chatMessage)
 {
 	BMessage *message = new BMessage(ProtocolConstants::K_ADD_COMMAND_MESSAGE);
 	message->AddString(K_COMMAND, SwitchboardMessages::K_SWITCHBOARD_MESSAGE);
 	message->AddString(K_REMAINING_MSG, AckTypes::K_NEGATIVE_ACK_TYPE);
 	
-	BString payloadData = message.String();				
+	BString payloadData = chatMessage.String();				
 	message->AddInt32(K_PAYLOAD_SIZE, payloadData.Length());
 	message->AddString(K_PAYLOAD_DATA, payloadData);
 	//TODO: build in acknowledgement
@@ -102,7 +102,7 @@ void ChatHandler::MessageReceived(BMessage *message)
 			}
 		}
 		break;
-		case SwitchboardMessages::K_INVITE_PRINCIPAL:
+		/*case SwitchboardMessages::K_INVITE_PRINCIPAL:
 		{
 			Contact *contact;
 			ContactInvited(contact);
@@ -126,7 +126,7 @@ void ChatHandler::MessageReceived(BMessage *message)
 			ChatMessage message; 
 			ReceivedMessage(contact, message);
 		}
-		break;
+		break;*/
 		default:
 			BHandler::MessageReceived(message);
 		break;

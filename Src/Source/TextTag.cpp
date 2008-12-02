@@ -8,17 +8,24 @@
 #include <iostream>
 
 TextTag::TextTag()
-			:	Tag(K_TEXT_TAG_TYPE)
+			:	Tag(K_TEXT_TAG_TYPE),
+				m_width(0.0f)
 {
 }
 
 TextTag::TextTag(BString text)
-			:	Tag(K_TEXT_TAG_TYPE, text)
+			:	Tag(K_TEXT_TAG_TYPE, text),
+				m_width(0.0f)
 {
 }
 
 TextTag::~TextTag()
 {
+}
+
+void TextTag::SetWidth(float width)
+{
+	m_width = width;
 }
 		
 BRect TextTag::Bounds(BView *owner)
@@ -29,8 +36,8 @@ BRect TextTag::Bounds(BView *owner)
 	BFont font;
 	owner->GetFont(&font);
 	//calculate the bounds of this tag
-	float textWidth = font.StringWidth(Text().String());
-	
+	float textWidth = m_width;//font.StringWidth(Text().String());
+	                    
 	font_height fHeight;
 	font.GetHeight(&fHeight);
 	float textHeight = font.Size();//fHeight.leading;

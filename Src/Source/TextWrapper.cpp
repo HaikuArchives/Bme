@@ -2,8 +2,11 @@
 #include "TextWrapper.h"
 #endif
 
+#include <kernel/OS.h>
 #include <interface/Point.h>
+#include <support/ClassInfo.h>
 #include "TaggedText.h"
+#include "TextTag.h"
 
 TextWrapper::TextWrapper(BView *enclosingView, WrappingMode wrappingMode)
 				:	m_enclosingView(enclosingView),
@@ -19,8 +22,12 @@ TextWrapper::~TextWrapper()
 
 BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuffer)
 {
+	bigtime_t startTime = real_time_clock_usecs();
+	bigtime_t totalBoundsTime = 0;
 	//loop through elements	
 	Line* currentLine = new Line(m_enclosingView);		
+	//calculate all the stringwidths in the textbuffer at once
+    CalculateStringWidths(textBuffer);                 
 	while (textBuffer->HasNext())
 	{
 		//get bounding rectangle for each element
@@ -28,7 +35,27 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 		float totalWidth = 0.0f;				
 		Tag* tag = textBuffer->Next();
 		//calculate the line width if this tag would be added
+		bigtime_t startWidthTime = real_time_clock_usecs();
+		
+		/**TODO: find out if this one works faster:
+				GetStringWidths(char* stringArray[],
+                     int32 lengthArray[],
+                     int32 numStrings,
+                     float widthArray[]) const; 
+                     
+                     Fast StringWidth():
+						Simple. Just add all the escapements and multiply by the size:
+
+						StringWidth = (sum of individual escapements) x (specific point size)
+
+						Since the escapements are size-independent, they can be cached. See if Haiku does it like that. 
+						seems not
+                     */                     
 		totalWidth = currentLine->Width() + tag->Bounds(m_enclosingView).Width();
+		bigtime_t endWidthTime = real_time_clock_usecs();
+		cout << "bounds time" << endWidthTime - startWidthTime << endl;
+		
+		totalBoundsTime += (endWidthTime - startWidthTime);
 		//see if the tag still fits on this line, if not add a new line			
 		if (totalWidth > enclosingRect.Width())
 		{				
@@ -54,6 +81,8 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 			}
 		}					
 	}	
+	bigtime_t endLoopTime = real_time_clock_usecs();
+	cout << "Total loop time" << endLoopTime - startTime << endl;
 	
 	//if not all elements fit, this happens in case of:
 	//a) K_HEIGHT_FIXED, in which case we should propagate the elements to other lines, 
@@ -76,6 +105,12 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 		}		
 	}	
 	BRect lineBufferBounds(0.0f,0.0f,m_lineBuffer->Width(), m_lineBuffer->Height());
+	
+	bigtime_t endTime = real_time_clock_usecs();
+	cout << "total method time" << endTime - startTime << endl;
+	cout << "total bounds time" << totalBoundsTime << endl;
+	//put the list index pointer to the beginning of the tag queue again
+	textBuffer->Rewind();
 	return lineBufferBounds;
 }
 
@@ -157,6 +192,39 @@ TaggedText*	TextWrapper::SplitText(TaggedText* text)
 	while (startOffset < string.CountChars());*/
 	
 	return stringParts;
+}
+
+void TextWrapper::CalculateStringWidths(TaggedText* textBuffer)
+{
+	//prepare the string arrays
+	int32 numTags = textBuffer->CountItems();
+	char* stringArray[numTags];
+	int32 lengthArray[numTags];	
+	for (int32 i = 0; i < numTags; i++)
+	{
+		Tag* tag = textBuffer->TagAt(i);
+		BString text = tag->Text();
+		//copy text into a new string buffer
+		int32 stringLength = text.CountChars();//segment violation here???
+		char* tagString = new char[stringLength+1]; 
+		text.CopyInto(tagString,0,stringLength);//is this fucking up the string in the next iteration?
+		
+		stringArray[i] = tagString;
+		lengthArray[i] = stringLength;
+    }
+	//calculate string widths
+	float widthArray[numTags];
+	m_enclosingView->GetStringWidths(stringArray, lengthArray, numTags, widthArray);	
+    //set string widths                 
+    for (int32 i = 0; i < numTags; i++)
+	{
+		Tag* tag = textBuffer->TagAt(i);
+		if (is_instance_of(tag, TextTag))
+		{
+			TextTag *textTag = dynamic_cast<TextTag*>(tag);
+			textTag->SetWidth(widthArray[i]);
+		}
+    }
 }
 
 //===============Implementation of Line class===================================================

@@ -7,6 +7,7 @@
 #include <app/MessageRunner.h>
 #include "ServerHandler.h"
 #include "ChatMessage.h"
+#include "Contact.h"
 
 class ChatHandler : public ServerHandler
 {

@@ -14,11 +14,14 @@ class TextTag : public Tag
 		TextTag(BString text);
 		virtual					~TextTag();
 				
+		void					SetWidth(float width);
 		virtual BRect			Bounds(BView *owner);
 		virtual bool			IsSplittable();
 		virtual TagQueue*		Split();
 		virtual void			DrawTag(BView *owner, BRect enclosingRect);
 		
+	private:
+		float					m_width;
 };
 
 #endif

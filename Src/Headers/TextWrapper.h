@@ -31,6 +31,7 @@ class TextWrapper
 	private:
 		void 				PropagateTags(LineBuffer *buffer, int32 lineIndex, Tag* addTag);
 		TaggedText*			SplitText(TaggedText* text);
+		void				CalculateStringWidths(TaggedText* textBuffer);
 			
 	private:
 		BView*				m_enclosingView;

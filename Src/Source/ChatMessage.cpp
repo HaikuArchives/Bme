@@ -10,9 +10,9 @@ ChatMessage::ChatMessage()
 }
 
 ChatMessage::ChatMessage(BMessage *archive)
-				:	ProtocolMessage(archive)
+				:	ProtocolMessage(SwitchboardMessages::K_SWITCHBOARD_MESSAGE)//ProtocolMessage(archive)
 {
-	ParsePayload(GetPayload());
+	//ParsePayload(GetPayload());
 }
 
 ChatMessage::~ChatMessage()
