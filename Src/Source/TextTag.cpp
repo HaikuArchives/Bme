@@ -60,3 +60,10 @@ void TextTag::DrawTag(BView *owner, BRect enclosingRect)
 {
 	owner->DrawString(Text().String(), enclosingRect.LeftBottom());
 }
+
+Tag* TextTag::Clone()
+{
+	TextTag* clone = new TextTag(Text());//TODO: add start index and end index
+	clone->SetWidth(m_width);
+	return clone;
+}

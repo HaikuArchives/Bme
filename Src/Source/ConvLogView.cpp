@@ -132,7 +132,7 @@ void ConvLogView::AddMessage(ConvMessage *message)
 	}
 	else
 	{
-		ChatMessageItem *chatItem = new ChatMessageItem(message, false);		
+		ChatMessageItem *chatItem = new ChatMessageItem(message, false);			
 		AddItem(chatItem);
 	}
 	//scroll to last item in list

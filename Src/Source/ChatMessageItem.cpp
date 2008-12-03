@@ -36,7 +36,7 @@ ChatMessageItem::~ChatMessageItem()
 }
 		
 void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything)
-{
+{	
 	bigtime_t startTime = real_time_clock_usecs();
 	if(owner->Window()->LockLooper())
 	{
@@ -46,6 +46,7 @@ void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything
 		bigtime_t endWrapTime = real_time_clock_usecs();
 		cout << "wrap time" << endWrapTime - startWrapTime << endl;
 		BRect wrapRect = itemRect;
+		float contactNameHeight = 0.0f;
 		if (IsFollowUp())
 		{
 			//if this MessageItem follows one of the same contact, only draw a separator with timestamp
@@ -61,22 +62,24 @@ void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything
 			Contact* contact = message->Sender();
 					
 			BRect boundingBox = be_plain_font->BoundingBox();
-			BPoint startPoint(0.0f, itemRect.top + 10.0f);
 			
 			owner->SetFont(be_bold_font);
+			contactNameHeight = be_bold_font->Size();
+			BPoint startPoint(0.0f, itemRect.top + contactNameHeight);
+						
 			BString contactText = contact->FriendlyName().String(); 
 			contactText.Append(" says:"); 
-			owner->DrawString(contactText.String(),startPoint);
+			owner->DrawString(contactText.String(),startPoint);			
 			
 		//	SetHeight(startPoint.y + 10.0f);
 			owner->SetFont(be_plain_font);
-			wrapRect.top = startPoint.y + 10.0f;
+			wrapRect.top = startPoint.y;
 		}	
-		
+		wrapRect.InsetBy(0.0f, 2.0f);
 		if (m_bounds.Width() != itemRect.Width())
 		{
 			m_bounds = wrapper.CalculateTextWrapping(wrapRect,m_text);
-			SetHeight(m_bounds.Height());
+			SetHeight(contactNameHeight + m_bounds.Height());
 			SetWidth(m_bounds.Width());
 		}
 		bigtime_t startDrawTime = real_time_clock_usecs();

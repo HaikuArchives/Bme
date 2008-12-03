@@ -20,6 +20,8 @@ class TextTag : public Tag
 		virtual TagQueue*		Split();
 		virtual void			DrawTag(BView *owner, BRect enclosingRect);
 		
+		virtual Tag*			Clone();
+		
 	private:
 		float					m_width;
 };

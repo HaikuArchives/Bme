@@ -30,6 +30,7 @@ class Tag
 		virtual bool		IsSplittable() = 0;
 		virtual TagQueue*	Split() = 0;
 		virtual void		DrawTag(BView *owner, BRect enclosingRect) = 0;
+		virtual Tag*		Clone() = 0;
 	
 	private:
 		int32			m_start,

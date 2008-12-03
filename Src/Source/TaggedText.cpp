@@ -27,6 +27,7 @@ BString TaggedText::GetText()
 	for (int i = 0; i < CountItems();i++)
 	{
 		Tag* tag = TagAt(i);
+		text.Append(tag->Text());
 	}
 	return text;
 }

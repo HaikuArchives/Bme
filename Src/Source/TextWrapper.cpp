@@ -24,10 +24,10 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 {
 	bigtime_t startTime = real_time_clock_usecs();
 	bigtime_t totalBoundsTime = 0;
-	//loop through elements	
-	Line* currentLine = new Line(m_enclosingView);		
 	//calculate all the stringwidths in the textbuffer at once
-    CalculateStringWidths(textBuffer);                 
+    CalculateStringWidths(textBuffer);
+	//loop through elements	
+	Line* currentLine = new Line(m_enclosingView);			                 
 	while (textBuffer->HasNext())
 	{
 		//get bounding rectangle for each element
@@ -65,7 +65,7 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 			currentLine = new Line(m_enclosingView);
 		}
 		//add the tag to the line
-		currentLine->Add(tag);
+		currentLine->Add(tag->Clone());
 		
 		if (m_wrappingMode == K_HEIGHT_FIXED || m_wrappingMode == K_WIDTH_AND_HEIGHT_FIXED)
 		{
@@ -100,7 +100,7 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 			{
 				Tag *firstTag = textBuffer->Next();
 				//slowly propagating non-fitting elements to line above		
-				PropagateTags(m_lineBuffer,m_lineBuffer->CountLines(),firstTag);			
+				PropagateTags(m_lineBuffer,m_lineBuffer->CountLines(),firstTag->Clone());			
 			}
 		}		
 	}	
@@ -208,9 +208,10 @@ void TextWrapper::CalculateStringWidths(TaggedText* textBuffer)
 		int32 stringLength = text.CountChars();//segment violation here???
 		char* tagString = new char[stringLength+1]; 
 		text.CopyInto(tagString,0,stringLength);//is this fucking up the string in the next iteration?
+		tagString[stringLength] = '\0';
 		
 		stringArray[i] = tagString;
-		lengthArray[i] = stringLength;
+		lengthArray[i] = stringLength;	
     }
 	//calculate string widths
 	float widthArray[numTags];
@@ -222,9 +223,11 @@ void TextWrapper::CalculateStringWidths(TaggedText* textBuffer)
 		if (is_instance_of(tag, TextTag))
 		{
 			TextTag *textTag = dynamic_cast<TextTag*>(tag);
+//			float width = m_enclosingView->StringWidth(tag->Text().String());
+	//		textTag->SetWidth(width);
 			textTag->SetWidth(widthArray[i]);
-		}
-    }
+		}		
+    }    
 }
 
 //===============Implementation of Line class===================================================
