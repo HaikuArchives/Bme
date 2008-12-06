@@ -11,6 +11,8 @@ class Tag;
 class TaggedText;
 class LineBuffer;
 
+#define K_LINE_SPACER	4.0f
+
 class TextWrapper
 {
 	public:

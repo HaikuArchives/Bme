@@ -145,11 +145,15 @@ void TextWrapper::DrawTextWithWrapping(BRect enclosingRect, TaggedText* text)
 	{
 		//get the next line from the line buffer
 		Line *currentLine = m_lineBuffer->LineAt(lineIndex);
-		float lineHeight = currentLine->Height();
+		//calculate line height and extra space
+		float lineHeight = currentLine->Height() + K_LINE_SPACER;
 		float leftX = enclosingRect.left;
 		float rightX = enclosingRect.right;
 		float bottomY = topY + lineHeight;
 		BRect lineBounds(leftX, topY, rightX, bottomY); 
+		//make sure we have some extra space above and below the line
+		float spacing = K_LINE_SPACER / 2;
+		lineBounds.InsetBy(0.0f, spacing);
 		//loop through the tags in the current line
 		float tagLeftX = leftX;
 		for (int tagIndex = 0; tagIndex	< currentLine->CountItems(); tagIndex++)
@@ -205,9 +209,9 @@ void TextWrapper::CalculateStringWidths(TaggedText* textBuffer)
 		Tag* tag = textBuffer->TagAt(i);
 		BString text = tag->Text();
 		//copy text into a new string buffer
-		int32 stringLength = text.CountChars();//segment violation here???
+		int32 stringLength = text.CountChars();
 		char* tagString = new char[stringLength+1]; 
-		text.CopyInto(tagString,0,stringLength);//is this fucking up the string in the next iteration?
+		text.CopyInto(tagString,0,stringLength);
 		tagString[stringLength] = '\0';
 		
 		stringArray[i] = tagString;

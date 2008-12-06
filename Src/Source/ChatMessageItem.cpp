@@ -5,15 +5,19 @@
 #include <interface/GraphicsDefs.h>
 #include <interface/View.h>
 #include <interface/Window.h>
+#include <translation/TranslationUtils.h>
 #include "ConvMessage.h"
 #include "Contact.h"
 #include "TextWrapper.h"
 #include "TextTag.h"
+#include "EmoticonTag.h"
 
 ChatMessageItem::ChatMessageItem(ConvMessage* message, bool followUp)
 						:	MessageItem(message),
 							m_followUp(followUp)
 {
+	BBitmap *emoticon1Bitmap = BTranslationUtils::GetBitmap("/boot/home/Documents/Programming/Miksprojects/Internet/bme/trunk/Graphics/Icons/Standard/Emoticons/001.png");
+	BBitmap *emoticon2Bitmap = BTranslationUtils::GetBitmap("/boot/home/Documents/Programming/Miksprojects/Internet/bme/trunk/Graphics/Icons/Standard/Emoticons/002.png");
 	//draw the message text
 	m_text = new TaggedText();
 	for (int i = 0; i < 100; i++)
@@ -21,7 +25,10 @@ ChatMessageItem::ChatMessageItem(ConvMessage* message, bool followUp)
 		m_text->Add(new TextTag("Hello "));
 		m_text->Add(new TextTag("how "));
 		m_text->Add(new TextTag("are "));
-		m_text->Add(new TextTag("you? "));
+		m_text->Add(new TextTag("you "));
+		m_text->Add(new TextTag("Tally?"));
+		BBitmap *emoticonBitmap = (i % 2) == 0 ? emoticon1Bitmap : emoticon2Bitmap;
+		m_text->Add(new EmoticonTag(":D",emoticonBitmap));
 	}	
 	
 /*	for (int i = 0; i < 100; i++)
@@ -60,8 +67,7 @@ void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything
 		{
 			//if this MessageItem is the first in the list, draw the contactName
 			Contact* contact = message->Sender();
-					
-			BRect boundingBox = be_plain_font->BoundingBox();
+		
 			
 			owner->SetFont(be_bold_font);
 			contactNameHeight = be_bold_font->Size();

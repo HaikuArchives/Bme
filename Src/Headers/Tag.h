@@ -7,7 +7,8 @@
 class BRect;
 class TagQueue;
 
-#define K_TEXT_TAG_TYPE 1
+#define K_TEXT_TAG_TYPE			1
+#define K_EMOTICON_TAG_TYPE		2
 //TODO: add tag implementation as class/might add in separate file
 /**	Tag structure to represent emoticons and other constructs within the text
  */
