@@ -8,13 +8,13 @@
 #include <translation/TranslationUtils.h>
 #include "ConvMessage.h"
 #include "Contact.h"
-#include "TextWrapper.h"
 #include "TextTag.h"
 #include "EmoticonTag.h"
 
 ChatMessageItem::ChatMessageItem(ConvMessage* message, bool followUp)
 						:	MessageItem(message),
-							m_followUp(followUp)
+							m_followUp(followUp),	
+							m_lineBuffer(NULL)
 {
 	BBitmap *emoticon1Bitmap = BTranslationUtils::GetBitmap("/boot/home/Documents/Programming/Miksprojects/Internet/bme/trunk/Graphics/Icons/Standard/Emoticons/001.png");
 	BBitmap *emoticon2Bitmap = BTranslationUtils::GetBitmap("/boot/home/Documents/Programming/Miksprojects/Internet/bme/trunk/Graphics/Icons/Standard/Emoticons/002.png");
@@ -40,6 +40,7 @@ ChatMessageItem::ChatMessageItem(ConvMessage* message, bool followUp)
 ChatMessageItem::~ChatMessageItem()
 {
 	delete m_text;
+	delete m_lineBuffer;
 }
 		
 void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything)
@@ -66,8 +67,7 @@ void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything
 		else
 		{
 			//if this MessageItem is the first in the list, draw the contactName
-			Contact* contact = message->Sender();
-		
+			Contact* contact = message->Sender();		
 			
 			owner->SetFont(be_bold_font);
 			contactNameHeight = be_bold_font->Size();
@@ -82,17 +82,18 @@ void ChatMessageItem::DrawItem(BView* owner, BRect itemRect, bool drawEverything
 			wrapRect.top = startPoint.y;
 		}	
 		wrapRect.InsetBy(0.0f, 2.0f);
-		if (m_bounds.Width() != itemRect.Width())
+		if (!m_lineBuffer || (m_lineBuffer->Width() != itemRect.Width()))
 		{
-			m_bounds = wrapper.CalculateTextWrapping(wrapRect,m_text);
-			SetHeight(contactNameHeight + m_bounds.Height());
-			SetWidth(m_bounds.Width());
+cout << "calculating anew, follow up=" << IsFollowUp() << endl;			
+			m_lineBuffer = wrapper.CalculateTextWrapping(wrapRect,m_text);
+			SetHeight(contactNameHeight + m_lineBuffer->Height());
+			SetWidth(m_lineBuffer->Width());
 		}
 		bigtime_t startDrawTime = real_time_clock_usecs();
-		wrapper.DrawTextWithWrapping(wrapRect, m_text);	
+		wrapper.DrawLineBuffer(wrapRect, m_lineBuffer);	
 		bigtime_t endDrawTime = real_time_clock_usecs();
 		cout << "draw time" << endDrawTime - startDrawTime << endl;
-		
+					
 		owner->Window()->UnlockLooper();
 	}
 	bigtime_t endTime = real_time_clock_usecs();
@@ -106,6 +107,9 @@ BRect ChatMessageItem::ItemBounds()
 
 void ChatMessageItem::Update(BView* owner, const BFont* font)
 {
+	/*TextWrapper wrapper(owner,TextWrapper::K_WIDTH_FIXED);
+	BRect wrapRect = 
+	wrapper.DrawLineBuffer(wrapRect, m_lineBuffer);*/
 }
 
 bool ChatMessageItem::IsFollowUp()

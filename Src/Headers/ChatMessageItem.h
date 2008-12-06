@@ -3,6 +3,7 @@
 
 #include "MessageItem.h"
 #include "TaggedText.h"
+#include "TextWrapper.h"
 
 class ChatMessageItem : public MessageItem
 {
@@ -20,7 +21,8 @@ class ChatMessageItem : public MessageItem
 	private:
 		bool				m_followUp;
 		TaggedText* 		m_text;
-		BRect				m_bounds;		
+		BRect				m_bounds;	
+		LineBuffer*			m_lineBuffer;	
 };
 
 #endif

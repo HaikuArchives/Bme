@@ -11,17 +11,18 @@
 TextWrapper::TextWrapper(BView *enclosingView, WrappingMode wrappingMode)
 				:	m_enclosingView(enclosingView),
 					m_wrappingMode(wrappingMode)
-{
-	m_lineBuffer = new LineBuffer();
+{	
 }
 
 TextWrapper::~TextWrapper()
-{
-	delete m_lineBuffer;
+{	
 }
 
-BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuffer)
+LineBuffer* TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBuffer)
 {
+	//create a line buffer to hold the lines of text
+	LineBuffer* lineBuffer = new LineBuffer();
+	
 	bigtime_t startTime = real_time_clock_usecs();
 	bigtime_t totalBoundsTime = 0;
 	//calculate all the stringwidths in the textbuffer at once
@@ -60,7 +61,7 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 		if (totalWidth > enclosingRect.Width())
 		{				
 			//add the current line to the line buffer
-			m_lineBuffer->AddLine(currentLine);	
+			lineBuffer->AddLine(currentLine);	
 			//create a new line to add the next tags to
 			currentLine = new Line(m_enclosingView);
 		}
@@ -70,7 +71,7 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 		if (m_wrappingMode == K_HEIGHT_FIXED || m_wrappingMode == K_WIDTH_AND_HEIGHT_FIXED)
 		{
 			//calculate the height of the line buffer when the currentLine would be added
-			float newLineBufferHeight = m_lineBuffer->Height() + currentLine->Height();
+			float newLineBufferHeight = lineBuffer->Height() + currentLine->Height();
 			//stop textwrapping when line buffer would exceed the height of the enclosingrect
 			if (newLineBufferHeight > enclosingRect.Height())
 			{
@@ -100,18 +101,17 @@ BRect TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* textBu
 			{
 				Tag *firstTag = textBuffer->Next();
 				//slowly propagating non-fitting elements to line above		
-				PropagateTags(m_lineBuffer,m_lineBuffer->CountLines(),firstTag->Clone());			
+				PropagateTags(lineBuffer,lineBuffer->CountLines(),firstTag->Clone());			
 			}
 		}		
 	}	
-	BRect lineBufferBounds(0.0f,0.0f,m_lineBuffer->Width(), m_lineBuffer->Height());
-	
+		
 	bigtime_t endTime = real_time_clock_usecs();
 	cout << "total method time" << endTime - startTime << endl;
 	cout << "total bounds time" << totalBoundsTime << endl;
 	//put the list index pointer to the beginning of the tag queue again
 	textBuffer->Rewind();
-	return lineBufferBounds;
+	return lineBuffer;
 }
 
 void TextWrapper::PropagateTags(LineBuffer *buffer, int32 lineIndex, Tag* addTag)
@@ -133,18 +133,16 @@ void TextWrapper::PropagateTags(LineBuffer *buffer, int32 lineIndex, Tag* addTag
 	}		
 }
 
-void TextWrapper::DrawTextWithWrapping(BRect enclosingRect, TaggedText* text)
+void TextWrapper::DrawLineBuffer(BRect enclosingRect, LineBuffer* lineBuffer)
 {
-	//split the text up into wrappable text parts
-	TaggedText* splitText = SplitText(text);
 	//calculate where the text should be split up, and where the split up text should be drawn
 	//CalculateTextWrapping(enclosingRect,splitText); //carried out twice
 	//loop through the line buffer and draw the tagged text
 	float topY = enclosingRect.top;
-	for (int lineIndex = 0; lineIndex < m_lineBuffer->CountLines(); lineIndex++)
+	for (int lineIndex = 0; lineIndex < lineBuffer->CountLines(); lineIndex++)
 	{
 		//get the next line from the line buffer
-		Line *currentLine = m_lineBuffer->LineAt(lineIndex);
+		Line *currentLine = lineBuffer->LineAt(lineIndex);
 		//calculate line height and extra space
 		float lineHeight = currentLine->Height() + K_LINE_SPACER;
 		float leftX = enclosingRect.left;

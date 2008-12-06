@@ -27,8 +27,8 @@ class TextWrapper
 		TextWrapper(BView *enclosingView, WrappingMode wrappingMode = K_WIDTH_AND_HEIGHT_FIXED);
 		virtual				~TextWrapper();
 			
-		BRect 				CalculateTextWrapping(BRect enclosingRect, TaggedText* text);
-		void 				DrawTextWithWrapping(BRect enclosingRect, TaggedText* text);
+		LineBuffer*			CalculateTextWrapping(BRect enclosingRect, TaggedText* text);
+		void 				DrawLineBuffer(BRect enclosingRect, LineBuffer* lineBuffer);
 				
 	private:
 		void 				PropagateTags(LineBuffer *buffer, int32 lineIndex, Tag* addTag);
@@ -37,8 +37,7 @@ class TextWrapper
 			
 	private:
 		BView*				m_enclosingView;
-		WrappingMode		m_wrappingMode;	
-		LineBuffer*			m_lineBuffer;	
+		WrappingMode		m_wrappingMode;			
 };
 
 //=Queue
