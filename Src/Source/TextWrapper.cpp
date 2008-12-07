@@ -22,56 +22,34 @@ LineBuffer* TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* 
 {
 	//create a line buffer to hold the lines of text
 	LineBuffer* lineBuffer = new LineBuffer();
-	
-	bigtime_t startTime = real_time_clock_usecs();
-	bigtime_t totalBoundsTime = 0;
 	//calculate all the stringwidths in the textbuffer at once
     CalculateStringWidths(textBuffer);
 	//loop through elements	
-	Line* currentLine = new Line(m_enclosingView);			                 
+	Line* currentLine = new Line(m_enclosingView, K_LINE_SPACER);			                 
 	while (textBuffer->HasNext())
 	{
 		//get bounding rectangle for each element
 		//try to fit elements on line
 		float totalWidth = 0.0f;				
 		Tag* tag = textBuffer->Next();
-		//calculate the line width if this tag would be added
-		bigtime_t startWidthTime = real_time_clock_usecs();
-		
-		/**TODO: find out if this one works faster:
-				GetStringWidths(char* stringArray[],
-                     int32 lengthArray[],
-                     int32 numStrings,
-                     float widthArray[]) const; 
-                     
-                     Fast StringWidth():
-						Simple. Just add all the escapements and multiply by the size:
-
-						StringWidth = (sum of individual escapements) x (specific point size)
-
-						Since the escapements are size-independent, they can be cached. See if Haiku does it like that. 
-						seems not
-                     */                     
+		//calculate the line width if this tag would be added		                 
 		float tagWidth = tag->Bounds().Width();
-		if (tagWidth > enclosingRect.Width())
+		if (tagWidth > enclosingRect.Width() && tag->IsSplittable())
 		{
 			//tag is too wide to fit on a line, split up
+			
 		}
 		else
 		{
 			//
 			totalWidth = currentLine->Width() + tagWidth;
-			bigtime_t endWidthTime = real_time_clock_usecs();
-			cout << "bounds time" << endWidthTime - startWidthTime << endl;
-		
-			totalBoundsTime += (endWidthTime - startWidthTime);
 			//see if the tag still fits on this line, if not add a new line	when there's still tags left		
 			if (totalWidth > enclosingRect.Width() && textBuffer->HasNext())
 			{				
 				//add the current line to the line buffer
 				lineBuffer->AddLine(currentLine);	
 				//create a new line to add the next tags to
-				currentLine = new Line(m_enclosingView);
+				currentLine = new Line(m_enclosingView, K_LINE_SPACER);
 			}
 			//add the tag to the line
 			currentLine->Add(tag->Clone());
@@ -97,9 +75,7 @@ LineBuffer* TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* 
 			}	
 		}					
 	}	
-	bigtime_t endLoopTime = real_time_clock_usecs();
-	cout << "Total loop time" << endLoopTime - startTime << endl;
-	
+		
 	//if not all elements fit, this happens in case of:
 	//a) K_HEIGHT_FIXED, in which case we should propagate the elements to other lines, 
 	//   increasing their width, do this so long that the entire text fits
@@ -120,10 +96,6 @@ LineBuffer* TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* 
 			}
 		}		
 	}	
-		
-	bigtime_t endTime = real_time_clock_usecs();
-	cout << "total method time" << endTime - startTime << endl;
-	cout << "total bounds time" << totalBoundsTime << endl;
 	//put the list index pointer to the beginning of the tag queue again
 	textBuffer->Rewind();
 	return lineBuffer;
@@ -159,13 +131,13 @@ void TextWrapper::DrawLineBuffer(BRect enclosingRect, LineBuffer* lineBuffer)
 		//get the next line from the line buffer
 		Line *currentLine = lineBuffer->LineAt(lineIndex);
 		//calculate line height and extra space
-		float lineHeight = currentLine->Height() + K_LINE_SPACER;
+		float lineHeight = currentLine->Height();
 		float leftX = enclosingRect.left;
 		float rightX = enclosingRect.right;
 		float bottomY = topY + lineHeight;
 		BRect lineBounds(leftX, topY, rightX, bottomY); 
 		//make sure we have some extra space above and below the line
-		float spacing = K_LINE_SPACER / 2;
+		float spacing = currentLine->Spacing() / 2;
 		lineBounds.InsetBy(0.0f, spacing);
 		//loop through the tags in the current line
 		float tagLeftX = leftX;
@@ -248,10 +220,11 @@ void TextWrapper::CalculateStringWidths(TaggedText* textBuffer)
 }
 
 //===============Implementation of Line class===================================================
-Line::Line(BView *enclosingView)
+Line::Line(BView *enclosingView, float spacing)
 		:	TagQueue(),
 			m_maxHeight(0.0f),
 			m_lineWidth(0.0f),
+			m_spacing(spacing),
 			m_enclosingView(enclosingView)			
 {
 }
@@ -262,7 +235,7 @@ Line::~Line()
 		
 float Line::Height()
 {
-	return m_maxHeight;
+	return m_maxHeight + m_spacing;
 }
 
 float Line::Width()
@@ -286,6 +259,16 @@ void Line::Add(Tag* tag)
 		m_maxHeight = tagHeight;
 	}
 	m_lineWidth += tag->Bounds().Width();
+}
+
+void Line::SetSpacing(float spacing)
+{
+	m_spacing = spacing;
+}
+
+float Line::Spacing()
+{
+	return m_spacing;
 }
 
 //implementation part of the LineBuffer class

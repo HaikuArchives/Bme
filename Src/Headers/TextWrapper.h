@@ -44,7 +44,7 @@ class TextWrapper
 class Line : public TagQueue
 {
 	public:
-		Line(BView *enclosingView);
+		Line(BView *enclosingView, float spacing = 0.0f);
 		virtual			~Line();
 		
 		float			Height();
@@ -53,9 +53,13 @@ class Line : public TagQueue
 		virtual Tag*	Next();
 		virtual void	Add(Tag* tag);				
 	
+		void			SetSpacing(float spacing);
+		float			Spacing();
+		
 	private:
 		float			m_maxHeight,
-						m_lineWidth;		
+						m_lineWidth,
+						m_spacing;		
 		BView 			*m_enclosingView;
 };
 
