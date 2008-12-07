@@ -52,7 +52,7 @@ LineBuffer* TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* 
 						Since the escapements are size-independent, they can be cached. See if Haiku does it like that. 
 						seems not
                      */                     
-		float tagWidth = tag->Bounds(m_enclosingView).Width();
+		float tagWidth = tag->Bounds().Width();
 		if (tagWidth > enclosingRect.Width())
 		{
 			//tag is too wide to fit on a line, split up
@@ -176,7 +176,7 @@ void TextWrapper::DrawLineBuffer(BRect enclosingRect, LineBuffer* lineBuffer)
 						
 			BRect tagBounds = lineBounds;
 			tagBounds.left = tagLeftX;
-			float tagRightX = tagLeftX + tag->Bounds(m_enclosingView).Width();
+			float tagRightX = tagLeftX + tag->Bounds().Width();
 			float endX = tagRightX < rightX ? tagRightX : rightX;
 			tagBounds.right = endX;			
 			tag->DrawTag(m_enclosingView, tagBounds); 
@@ -280,12 +280,12 @@ void Line::Add(Tag* tag)
 {
 	TagQueue::Add(tag);
 	//see if the tag is higher than any other in this line
-	float tagHeight = tag->Bounds(m_enclosingView).Height();
+	float tagHeight = tag->Bounds().Height();
 	if (tagHeight > m_maxHeight)
 	{
 		m_maxHeight = tagHeight;
 	}
-	m_lineWidth += tag->Bounds(m_enclosingView).Width();
+	m_lineWidth += tag->Bounds().Width();
 }
 
 //implementation part of the LineBuffer class

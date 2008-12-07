@@ -14,7 +14,7 @@ class EmoticonTag : public Tag
 		EmoticonTag(BString text, BBitmap* emoticon);
 		virtual				~EmoticonTag();
 		
-		virtual BRect		Bounds(BView *owner);
+		virtual BRect		Bounds();
 		virtual bool		IsSplittable();
 		virtual TagQueue*	Split();
 		virtual void		DrawTag(BView *owner, BRect enclosingRect);

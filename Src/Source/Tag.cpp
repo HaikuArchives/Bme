@@ -26,7 +26,7 @@ int32 Tag::Type()
 	return m_type;
 }
 
-BRect Tag::Bounds(BView *owner)
+BRect Tag::Bounds()
 {
 	BRect bounds;
 	return bounds;

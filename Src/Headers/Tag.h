@@ -20,7 +20,7 @@ class Tag
 		virtual				~Tag();
 			
 		int32				Type();
-		virtual BRect		Bounds(BView *owner);							
+		virtual BRect		Bounds();							
 		
 		BString				Text();
 		void				SetText(BString text);

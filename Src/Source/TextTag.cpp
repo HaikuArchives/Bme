@@ -7,15 +7,17 @@
 #include <interface/Font.h>
 #include <iostream>
 
-TextTag::TextTag()
+TextTag::TextTag(BFont tagFont = be_plain_font)
 			:	Tag(K_TEXT_TAG_TYPE),
+				m_tagFont(tagFont),
 				m_width(0.0f)
 {
 }
 
-TextTag::TextTag(BString text)
+TextTag::TextTag(BString text, BFont tagFont)
 			:	Tag(K_TEXT_TAG_TYPE, text),
-				m_width(0.0f)
+				m_tagFont(tagFont),
+				m_width(0.0f)				
 {
 }
 
@@ -28,19 +30,16 @@ void TextTag::SetWidth(float width)
 	m_width = width;
 }
 		
-BRect TextTag::Bounds(BView *owner)
+BRect TextTag::Bounds()
 {
 	float x = 0.0f;//TODO: replace by current drawing (pen) coordinates
-	float y = 0.0f;
-	//get the current font for this view
-	BFont font;
-	owner->GetFont(&font);
+	float y = 0.0f;	
 	//calculate the bounds of this tag
 	float textWidth = m_width;//font.StringWidth(Text().String());
 	                    
 	font_height fHeight;
-	font.GetHeight(&fHeight);
-	float textHeight = font.Size();//fHeight.leading;
+	m_tagFont.GetHeight(&fHeight);
+	float textHeight = m_tagFont.Size();//fHeight.leading;
 	BRect bounds(x, y, x + textWidth, y + textHeight);
 	return bounds;
 }
@@ -59,6 +58,16 @@ TagQueue* TextTag::Split()
 void TextTag::DrawTag(BView *owner, BRect enclosingRect)
 {
 	owner->DrawString(Text().String(), enclosingRect.LeftBottom());
+}
+
+void TextTag::SetFont(BFont font)
+{
+	m_tagFont = font;
+}
+
+BFont TextTag::Font()
+{
+	return m_tagFont;
 }
 
 Tag* TextTag::Clone()

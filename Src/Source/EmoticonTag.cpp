@@ -18,7 +18,7 @@ EmoticonTag::~EmoticonTag()
 {
 }
 
-BRect EmoticonTag::Bounds(BView *owner)
+BRect EmoticonTag::Bounds()
 {
 	BRect rect(0.0f,0.0f,0.0f,0.0f);
 	if (m_emoticon)
@@ -31,13 +31,13 @@ BRect EmoticonTag::Bounds(BView *owner)
 
 bool EmoticonTag::IsSplittable()
 {
-	//TODO: look at BString to determine if splitting is possible
-	return true;
+	//an emoticon picture cannot be split into multiple parts
+	return false;
 }
 
 TagQueue* EmoticonTag::Split()
 {
-	//TODO: splitting algorithm for this text tag
+	return NULL;
 }
 
 void EmoticonTag::DrawTag(BView *owner, BRect enclosingRect)
