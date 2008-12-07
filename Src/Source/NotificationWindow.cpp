@@ -8,6 +8,8 @@
 #include <be_apps/Deskbar/Deskbar.h>
 #include "constants.h"
 #include "TextWrapper.h"
+#include "TaggedText.h"
+#include "TextTag.h"
 #include <iostream>
 
 NotificationWindowFactory::NotificationWindowFactory()
@@ -153,11 +155,21 @@ NotificationView::~NotificationView()
 
 void NotificationView::Draw(BRect updateRect)
 {
+	PushState();
 	//first draw parent
 	GradientView::Draw(updateRect);
+	PopState();
 	//the entire view can be used to draw the text
-	BRect enclosingRect = Bounds();
+	BRect enclosingRect = Bounds();	
+	enclosingRect.InsetBy(2.0f,2.0f);
+	TaggedText* text = new TaggedText();
+	text->Add(new TextTag("obelmiks@hotmail.com")); 
+	text->Add(new TextTag("has just signed in"));		
 	//draw text with wrapping
-	/*TextWrapper textWrapper(this);
-	textWrapper.DrawTextWithWrapping(enclosingRect,m_notificationString, be_plain_font);*/
+	TextWrapper textWrapper(this);	
+	SetFont(be_bold_font);
+	LineBuffer* lineBuffer = textWrapper.CalculateTextWrapping(enclosingRect, text);	
+	textWrapper.DrawLineBuffer(enclosingRect,lineBuffer);	
+	delete lineBuffer;
+	delete text;
 }

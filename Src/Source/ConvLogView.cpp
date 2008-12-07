@@ -20,7 +20,7 @@
 #include "Contact.h"
 
 ConvLogView::ConvLogView(BRect frame,  BRect textRect) 
-				:	BListView(frame, "ConvLogView", B_MULTIPLE_SELECTION_LIST, B_FOLLOW_ALL, B_WILL_DRAW)
+				:	BListView(frame, "ConvLogView", B_MULTIPLE_SELECTION_LIST, B_FOLLOW_ALL, B_WILL_DRAW | B_NAVIGABLE | B_FRAME_EVENTS | B_FULL_UPDATE_ON_RESIZE)
 {
 }
 

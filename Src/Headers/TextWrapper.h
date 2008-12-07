@@ -54,7 +54,8 @@ class Line : public TagQueue
 		virtual void	Add(Tag* tag);				
 	
 	private:
-		float			m_maxHeight;
+		float			m_maxHeight,
+						m_lineWidth;		
 		BView 			*m_enclosingView;
 };
 
@@ -73,7 +74,9 @@ class LineBuffer
 		Line*				LineAt(int32 index);
 	
 	private:
-		BList*				m_lineList;			
+		BList*				m_lineList;		
+		float				m_bufferHeight,
+							m_bufferWidth;	
 };
 	
 #endif

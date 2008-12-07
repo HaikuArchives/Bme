@@ -9,7 +9,7 @@
 #endif
 
 GradientView::GradientView(BRect frame, const char* name, int32 follow, rgb_color topColor, rgb_color bottomColor)
-				:	BView(frame, name, follow, B_WILL_DRAW|B_DRAW_ON_CHILDREN|B_FRAME_EVENTS),
+				:	BView(frame, name, follow, B_WILL_DRAW|B_DRAW_ON_CHILDREN|B_FRAME_EVENTS|B_FULL_UPDATE_ON_RESIZE),
 					m_topColor(topColor),
 					m_bottomColor(bottomColor),	
 					m_height(frame.Height())

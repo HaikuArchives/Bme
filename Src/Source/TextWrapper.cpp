@@ -52,34 +52,49 @@ LineBuffer* TextWrapper::CalculateTextWrapping(BRect enclosingRect, TaggedText* 
 						Since the escapements are size-independent, they can be cached. See if Haiku does it like that. 
 						seems not
                      */                     
-		totalWidth = currentLine->Width() + tag->Bounds(m_enclosingView).Width();
-		bigtime_t endWidthTime = real_time_clock_usecs();
-		cout << "bounds time" << endWidthTime - startWidthTime << endl;
-		
-		totalBoundsTime += (endWidthTime - startWidthTime);
-		//see if the tag still fits on this line, if not add a new line			
-		if (totalWidth > enclosingRect.Width())
-		{				
-			//add the current line to the line buffer
-			lineBuffer->AddLine(currentLine);	
-			//create a new line to add the next tags to
-			currentLine = new Line(m_enclosingView);
-		}
-		//add the tag to the line
-		currentLine->Add(tag->Clone());
-		
-		if (m_wrappingMode == K_HEIGHT_FIXED || m_wrappingMode == K_WIDTH_AND_HEIGHT_FIXED)
+		float tagWidth = tag->Bounds(m_enclosingView).Width();
+		if (tagWidth > enclosingRect.Width())
 		{
-			//calculate the height of the line buffer when the currentLine would be added
-			float newLineBufferHeight = lineBuffer->Height() + currentLine->Height();
-			//stop textwrapping when line buffer would exceed the height of the enclosingrect
-			if (newLineBufferHeight > enclosingRect.Height())
-			{
-				//delete the current line, to prevent memory leak
-				delete currentLine;
-				//leave loop early, leaving still some items in the textbuffer
-				break;
+			//tag is too wide to fit on a line, split up
+		}
+		else
+		{
+			//
+			totalWidth = currentLine->Width() + tagWidth;
+			bigtime_t endWidthTime = real_time_clock_usecs();
+			cout << "bounds time" << endWidthTime - startWidthTime << endl;
+		
+			totalBoundsTime += (endWidthTime - startWidthTime);
+			//see if the tag still fits on this line, if not add a new line	when there's still tags left		
+			if (totalWidth > enclosingRect.Width() && textBuffer->HasNext())
+			{				
+				//add the current line to the line buffer
+				lineBuffer->AddLine(currentLine);	
+				//create a new line to add the next tags to
+				currentLine = new Line(m_enclosingView);
 			}
+			//add the tag to the line
+			currentLine->Add(tag->Clone());
+			//if no tags left add the line
+			if (!textBuffer->HasNext())
+			{
+				//add the current line to the line buffer
+				lineBuffer->AddLine(currentLine);	
+			}
+		
+			if (m_wrappingMode == K_HEIGHT_FIXED || m_wrappingMode == K_WIDTH_AND_HEIGHT_FIXED)
+			{
+				//calculate the height of the line buffer when the currentLine would be added
+				float newLineBufferHeight = lineBuffer->Height() + currentLine->Height();
+				//stop textwrapping when line buffer would exceed the height of the enclosingrect
+				if (newLineBufferHeight > enclosingRect.Height())
+				{
+					//delete the current line, to prevent memory leak
+					delete currentLine;
+					//leave loop early, leaving still some items in the textbuffer
+					break;
+				}
+			}	
 		}					
 	}	
 	bigtime_t endLoopTime = real_time_clock_usecs();
@@ -235,7 +250,8 @@ void TextWrapper::CalculateStringWidths(TaggedText* textBuffer)
 //===============Implementation of Line class===================================================
 Line::Line(BView *enclosingView)
 		:	TagQueue(),
-			m_maxHeight(0),
+			m_maxHeight(0.0f),
+			m_lineWidth(0.0f),
 			m_enclosingView(enclosingView)			
 {
 }
@@ -250,15 +266,8 @@ float Line::Height()
 }
 
 float Line::Width()
-{		
-	float width;
-	//calculate the line width
-	for (int32 i = 0; i < CountItems(); i++)
-	{
-		Tag* tag = TagAt(i);
-		width += tag->Bounds(m_enclosingView).Width();
-	}
-	return width;
+{	
+	return m_lineWidth;
 }
 
 Tag* Line::Next()
@@ -276,10 +285,13 @@ void Line::Add(Tag* tag)
 	{
 		m_maxHeight = tagHeight;
 	}
+	m_lineWidth += tag->Bounds(m_enclosingView).Width();
 }
 
 //implementation part of the LineBuffer class
 LineBuffer::LineBuffer()
+				:	m_bufferHeight(0.0f),
+					m_bufferWidth(0.0f)
 {				
 	m_lineList = new BList();
 }
@@ -298,31 +310,13 @@ LineBuffer::~LineBuffer()
 }
 		
 float LineBuffer::Height()
-{
-	//calculate the height of this line buffer
-	float bufferHeight = 0;
-	for (int32 i = 0; i < CountLines(); i++)
-	{
-		Line *line = LineAt(i);
-		bufferHeight += line->Height();		
-	}
-	return bufferHeight;
+{	
+	return m_bufferHeight;
 }
 
 float LineBuffer::Width()
 {
-	//find the maximum width of this line buffer
-	float maxWidth = 0;
-	for (int32 i = 0; i < CountLines(); i++)
-	{
-		Line *line = LineAt(i);
-		float lineWidth = line->Width();
-		if (lineWidth > maxWidth)
-		{
-			maxWidth = lineWidth;
-		}
-	}
-	return maxWidth;
+	return m_bufferWidth;
 }
 		
 bool LineBuffer::IsEmpty()
@@ -338,6 +332,14 @@ int32 LineBuffer::CountLines()
 void LineBuffer::AddLine(Line *line)
 {
 	m_lineList->AddItem(line);
+	//add the height to the total height of the buffer
+	m_bufferHeight += line->Height();
+	//see if this line is longer than the longest line
+	float lineWidth = line->Width();
+	if (lineWidth > m_bufferWidth)
+	{
+		m_bufferWidth = lineWidth;
+	}
 }
 
 Line* LineBuffer::LineAt(int32 index)

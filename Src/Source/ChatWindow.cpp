@@ -62,7 +62,7 @@ ChatWindow::ChatWindow(BRect frame)
 	BRect convLogFrame(5.0f, contactDetailsFrame.bottom + 10.0f,backgroundFrame.Width() - 121.0f - B_V_SCROLL_BAR_WIDTH, backgroundFrame.Height() - 100.0f);
 	BRect convLogTextFrame(0.0f,0.0f,convLogFrame.Width(), convLogFrame.Height());
 	m_convLogView = new ConvLogView(convLogFrame, convLogTextFrame);
-	m_convScroll = new BScrollView("convScroll", m_convLogView, B_FOLLOW_ALL_SIDES, 0, false, true);
+	m_convScroll = new BScrollView("convScroll", m_convLogView, B_FOLLOW_ALL_SIDES, B_FULL_UPDATE_ON_RESIZE, false, true);
 	backgroundView->AddChild(m_convScroll);	
 	//construct contact picture view, to display a contact avatar
 	BRect contactPictureFrame(convLogFrame.right + 10.0f + B_V_SCROLL_BAR_WIDTH, convLogFrame.top, convLogFrame.right + 102.0f + B_V_SCROLL_BAR_WIDTH, convLogFrame.top + 92.0f);
