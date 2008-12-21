@@ -131,7 +131,7 @@
 		<emoticon>
 			<icon>Emoticons/011.png</icon>
 			<name>Crying smiley</name>
-			<text>:'(
+			<text>:'(</text>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/012.png</icon>
@@ -176,7 +176,7 @@
 		<emoticon>
 			<icon>Emoticons/19.jpeg</icon>
 			<name>Dog</name>
-			<text>(&)</text>
+			<text>(&amp;)</text>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/020.png</icon>
@@ -474,7 +474,7 @@
 		<emoticon>
 			<icon>Emoticons/75.gif</icon>
 			<name>Party smiley</name>
-			<text><:o)</text>
+			<text>&lt;:o)</text>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/76.gif</icon>

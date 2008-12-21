@@ -27,6 +27,7 @@
 #include "PrefsWindow.h"
 #include "Common.h"
 #include "MessageFields.h"
+#include "IconTheme.h"
 
 #include "Exception.h"
 /**	Constructor
@@ -54,6 +55,9 @@ BmeApp::BmeApp()
 	iconPrefsPath.Append(K_STANDARD_ICON_PATH);
 	iconPrefsPath.Append("iconprefs.txt");
 	LoadStatusses(iconPrefsPath);
+	
+	BPath path = "/boot/home/Documents/Programming/Miksprojects/Internet/bme/trunk/Graphics/Icons/Standard/iconprefs.xml";
+	IconTheme theme(path);
 	//add standard client id, if not found
 	int64 id;
 	id = ClientIdentification::K_MSNC4;
