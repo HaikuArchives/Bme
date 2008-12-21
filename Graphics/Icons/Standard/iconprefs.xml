@@ -71,430 +71,430 @@
 		<emoticon>
 			<icon>Emoticons/001.png</icon>		
 			<name>Smiley</name>
-			<text>:-)</text>
-			<text>:)</text>
+			<etext>:-)</etext>
+			<etext>:)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/002.png</icon>
 			<name>Open-mouthed smiley</name>
-			<text>:-D</text>
-			<text>:d</text>
+			<etext>:-D</etext>
+			<etext>:d</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/003.png</icon>
 			<name>Winking smiley</name>
-			<text>;-)</text>
-			<text>;)</text>
+			<etext>;-)</etext>
+			<etext>;)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/004.png</icon>
 			<name>Surprised smiley</name>
-			<text>:-O</text>
-			<text>:o</text>
+			<etext>:-O</etext>
+			<etext>:o</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/005.png</icon>
 			<name>Smiley with tongue out</name>
-			<text>:-P</text>
-			<text>:p</text>
+			<etext>:-P</etext>
+			<etext>:p</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/006.png</icon>
 			<name>Hot smiley</name>
-			<text>(H)</text>
-			<text>(h)</text>
+			<etext>(H)</etext>
+			<etext>(h)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/007.png</icon>
 			<name>Angry smiley</name>
-			<text>:-@</text>
-			<text>:@</text>
+			<etext>:-@</etext>
+			<etext>:@</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/008.png</icon>
 			<name>Embarrassed smiley</name>
-			<text>:-$</text> 
-			<text>:$</text>
+			<etext>:-$</etext> 
+			<etext>:$</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/009.png</icon>
 			<name>Confused smiley</name>	
-			<text>:-S</text>
-			<text>:s</text>
+			<etext>:-S</etext>
+			<etext>:s</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/010.png</icon>
 			<name>Sad smiley</name>
-			<text>:-(</text>
-			<text>:(</text>
+			<etext>:-(</etext>
+			<etext>:(</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/011.png</icon>
 			<name>Crying smiley</name>
-			<text>:'(</text>
+			<etext>:'(</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/012.png</icon>
 			<name>Disappointed smiley</name>
-			<text>:-|</text>
-			<text>:|</text>
+			<etext>:-|</etext>
+			<etext>:|</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/013.png</icon>
 			<name>Devil smiley</name>
-			<text>(6)</text>
+			<etext>(6)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/014.png</icon>
 			<name>Angel smiley</name>
-			<text>(A)</text>
-			<text>(a)</text>
+			<etext>(A)</etext>
+			<etext>(a)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/015.png</icon>
 			<name>Red heart</name>
-			<text>(L)</text>
-			<text>(l)</text>
+			<etext>(L)</etext>
+			<etext>(l)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/016.png</icon>
 			<name>Broken heart</name>
-			<text>(U)</text>
-			<text>(u)</text>
+			<etext>(U)</etext>
+			<etext>(u)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/017.png</icon>
 			<name>MSN Messenger icon</name>
-			<text>(M)</text>
-			<text>(m)</text>
+			<etext>(M)</etext>
+			<etext>(m)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/018.png</icon>
 			<name>Cat</name>
-			<text>(@)</text>
+			<etext>(@)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/19.jpeg</icon>
 			<name>Dog</name>
-			<text>(&amp;)</text>
+			<etext>(&amp;)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/020.png</icon>
 			<name>Half-moon</name>
-			<text>(S)</text>
+			<etext>(S)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/021.png</icon>
 			<name>Star</name>
-			<text>(*)</text>
+			<etext>(*)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/022.png</icon>
 			<name>Film Strip</name>
-			<text>(~)</text>
+			<etext>(~)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/023.png</icon>
 			<name>Musical eighth note</name>
-			<text>(8)</text>
+			<etext>(8)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/024.png</icon>
 			<name>Envelope</name>
-			<text>(E)</text>
-			<text>(e)</text>
+			<etext>(E)</etext>
+			<etext>(e)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/025.png</icon>
 			<name>Red rose</name>
-			<text>(F)</text>
-			<text>(f)</text>
+			<etext>(F)</etext>
+			<etext>(f)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/026.png</icon>
 			<name>Wilted rose</name>
-			<text>(W)</text>
-			<text>(w)</text>
+			<etext>(W)</etext>
+			<etext>(w)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/27.jpeg</icon>
 			<name>Clock</name>
-			<text>(O)</text>
-			<text>(o)</text>
+			<etext>(O)</etext>
+			<etext>(o)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/028.png</icon>
 			<name>Red lips</name>
-			<text>(K)</text>
-			<text>(k)</text>
+			<etext>(K)</etext>
+			<etext>(k)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/29.jpeg</icon>
 			<name>Gift with bow</name>
-			<text>(G)</text>
-			<text>(g)</text>
+			<etext>(G)</etext>
+			<etext>(g)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/30.gif</icon>
 			<name>Birthday cake</name>
-			<text>(^)</text>
+			<etext>(^)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/31.jpeg</icon>
 			<name>Camera</name>
-			<text>(P)</text>
-			<text>(p)</text>
+			<etext>(P)</etext>
+			<etext>(p)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/32.jpeg</icon>
 			<name>Light bulb</name>
-			<text>(I)</text>
-			<text>(i)</text>
+			<etext>(I)</etext>
+			<etext>(i)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/33.jpeg</icon>
 			<name>Coffee cup</name>
-			<text>(C)</text>
-			<text>(c)</text>
+			<etext>(C)</etext>
+			<etext>(c)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/34.jpeg</icon>
 			<name>Telephone receiver</name>
-			<text>(T)</text>
-			<text>(t)</text>
+			<etext>(T)</etext>
+			<etext>(t)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/35.jpeg</icon>
 			<name>Left hug</name>
-			<text>({)</text>
+			<etext>({)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/36.jpeg</icon>
 			<name>Right hug</name>
-			<text>(})</text>
+			<etext>(})</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/37.jpeg</icon>
 			<name>Beer mug</name>
-			<text>(B)</text>
-			<text>(b)</text>
+			<etext>(B)</etext>
+			<etext>(b)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/38.jpeg</icon>
 			<name>Martini glass</name>
-			<text>(D)</text>
-			<text>(d)</text>
+			<etext>(D)</etext>
+			<etext>(d)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/39.jpeg</icon>
 			<name>Boy</name>
-			<text>(Z)</text>
-			<text>(z)</text>
+			<etext>(Z)</etext>
+			<etext>(z)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/40.jpeg</icon>
 			<name>Girl</name>
-			<text>(X)</text>
-			<text>(x)</text>
+			<etext>(X)</etext>
+			<etext>(x)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/41.jpeg</icon>
 			<name>Thumbs up</name>
-			<text>(Y)</text>
-			<text>(y)</text>
+			<etext>(Y)</etext>
+			<etext>(y)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/42.jpeg</icon>	
 			<name>Thumbs down</name>
-			<text>(N)</text>
-			<text>(n)</text>
+			<etext>(N)</etext>
+			<etext>(n)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/43.gif</icon>
 			<name>Vampire bat</name>
-			<text>:-[</text>
-			<text>:[</text>
+			<etext>:-[</etext>
+			<etext>:[</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/44.jpeg</icon>
 			<name>Age sex location</name>
-			<text>(?)</text>
+			<etext>(?)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/45.jpeg</icon>
 			<name>Handcuffs</name>
-			<text>(%)</text>
+			<etext>(%)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/46.jpeg</icon>
 			<name>Sun</name>
-			<text>(#)</text>
+			<etext>(#)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/47.jpeg</icon>
 			<name>Rainbow</name>
-			<text>(R)</text>
-			<text>(r)</text>
+			<etext>(R)</etext>
+			<etext>(r)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/48.jpeg</icon>
 			<name>Don't tell anyone smiley</name>
-			<text>:-#</text>
+			<etext>:-#</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/49.jpeg</icon>
 			<name>Baring teeth smiley</name>
-			<text>8o|</text>
+			<etext>8o|</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/50.jpeg</icon>
 			<name>Nerd smiley</name>
-			<text>8-|</text>
+			<etext>8-|</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/051.png</icon>
 			<name>Sarcastic smiley</name>
-			<text>^o)</text>
+			<etext>^o)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/52.jpeg</icon>
 			<name>Secret telling smiley</name>
-			<text>:-*</text>
+			<etext>:-*</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/53.jpeg</icon>
 			<name>Sick smiley</name>	
-			<text>+o(</text>
+			<etext>+o(</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/54.jpeg</icon>
 			<name>Snail</name>
-			<text>(sn)</text>
+			<etext>(sn)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/55.jpeg</icon>
 			<name>Turtle</name>	
-			<text>(tu)</text>	
+			<etext>(tu)</etext>	
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/56.jpeg</icon>
 			<name>Dinner plate</name>
-			<text>(pl)</text>
+			<etext>(pl)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/57.jpeg</icon>
 			<name>Bowl</name>
-			<text>(||)</text>
+			<etext>(||)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/58.jpeg</icon>
 			<name>Pizza</name>
-			<text>(pi)</text>
+			<etext>(pi)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/59.jpeg</icon>
 			<name>Soccer Ball</name>
-			<text>(so)</text>
+			<etext>(so)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/60.jpeg</icon>	
 			<name>Auto</name>
-			<text>(au)</text>
+			<etext>(au)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/61.jpeg</icon>
 			<name>Airplane</name>
-			<text>(ap)</text>
+			<etext>(ap)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/62.jpeg</icon>
 			<name>Umbrella</name>
-			<text>(um)</text>
+			<etext>(um)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/63.jpeg</icon>
 			<name>Island with a palm tree</name>	
-			<text>(ip)</text>
+			<etext>(ip)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/64.gif</icon>
 			<name>Computer</name>
-			<text>(co)</text>
+			<etext>(co)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/65.jpeg</icon>
 			<name>Mobile Phone</name>
-			<text>(mp)</text>
+			<etext>(mp)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/66.jpeg</icon>
 			<name>Be Right Back</name>
-			<text>(brb)</text>
+			<etext>(brb)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/67.jpeg</icon>
 			<name>Stormy</name>
-			<text>(st)</text>
+			<etext>(st)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/68.jpeg</icon>
 			<name>Fingers crossed</name>
-			<text>(yn)</text>
+			<etext>(yn)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/69.jpeg</icon>
 			<name>High five!</name>
-			<text>(h5)</text>
+			<etext>(h5)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/70.jpeg</icon>
 			<name>Money</name>
-			<text>(mo)</text>
+			<etext>(mo)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/71.jpeg</icon>
 			<name>Black Sheep</name>
-			<text>(bah)</text>
+			<etext>(bah)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/072.png</icon>
 			<name>I don't know smiley</name>
-			<text>:^)</text>
+			<etext>:^)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/73.gif</icon>
 			<name>Thinking smiley</name>
-			<text>*-)</text>
+			<etext>*-)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/74.gif</icon>
 			<name>Lightning</name>
-			<text>(li)</text>
+			<etext>(li)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/75.gif</icon>
 			<name>Party smiley</name>
-			<text>&lt;:o)</text>
+			<etext>&lt;:o)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/76.gif</icon>
 			<name>Eye-rolling smiley</name>
-			<text>8-)</text>
+			<etext>8-)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/77.gif</icon>
 			<name>Cigarette</name>
-			<text>(ci)</text>
+			<etext>(ci)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/078.png</icon>
 			<name>Sleepy smiley</name>
-			<text>|-)</text>
+			<etext>|-)</etext>
 		</emoticon>
 		<emoticon>
 			<icon>Emoticons/79.jpeg</icon>
 			<name>X-Box</name>
-			<text>(xx)</text>
+			<etext>(xx)</etext>
 		</emoticon>
 	</emoticons>
 </iconprefs>

@@ -13,7 +13,7 @@
 #include "ProtocolConstants.h"
 
 Status::Status()
-			:	BArchivable();
+			:	BArchivable()
 {
 }
 
