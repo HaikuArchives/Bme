@@ -2,7 +2,11 @@
 #include "IconTheme.h"
 #endif 
 
+#include <stdlib>
+#include "Common.h"
+
 IconTheme::IconTheme(BPath themePath)
+				:	m_themePath(themePath)
 {
 	ParseThemeFile(themePath);
 }
@@ -101,6 +105,54 @@ map<BString,Status*> IconTheme::ParseStatusses(xmlNode *statussesNode)
 {
 	map<BString,Status*> statusses;
 	//parse all status xml into objects
+	xmlChar* K_STATUS_TAG = xmlCharStrdup("status");
+	xmlChar* K_ICON_TAG = xmlCharStrdup("icon");
+	xmlChar* K_MESSAGE_TAG = xmlCharStrdup("message");
+	xmlChar* K_PROTOCOL_TAG = xmlCharStrdup("protocol");
+	xmlChar* K_VISIBLE_TAG = xmlCharStrdup("visible");
+	xmlChar* K_COLOR_TAG = xmlCharStrdup("color");	
+			
+	for (cur_node = statussesNode; cur_node; cur_node = cur_node->next)
+	{
+		if (cur_node->type == XML_ELEMENT_NODE && xmlStrEqual(cur_node->name, K_STATUS_TAG) 
+      	{   
+      		Status *status = new Status();    	 		
+      		for (statusNode = cur_node->children; statusNode; statusNode = statusNode->next)
+			{      	 		
+       	 		if (xmlStrEqual(statusNode->name, K_ICON_TAG))
+            	{
+            		xmlNode* textNode = statusNode->children;
+            		BString nodeText = GetNodeText(textNode);
+            		status->AddIcon(GetIconBitmap(nodeText))
+            	}
+            	else if (xmlStrEqual(statusNode->name, K_MESSAGE_TAG))
+            	{
+            		xmlNode* textNode = statusNode->children;
+            		BString nodeText = GetNodeText(textNode);
+            		status->SetStatusName(nodeText);
+            	}
+            	else if (xmlStrEqual(statusNode->name, K_PROTOCOL_TAG))
+            	{
+            		xmlNode* textNode = statusNode->children;
+            		BString nodeText = GetNodeText(textNode);
+            		status->SetAbbreviation(nodeText);
+            	}            	
+            	else if (xmlStrEqual(statusNode->name, K_VISIBLE_TAG))
+            	{
+            		xmlNode* textNode = statusNode->children;
+            		BString nodeText = GetNodeText(textNode);
+            		status->SetUserChoice(atoi(nodeText.String());
+            	}
+            	else if (xmlStrEqual(statusNode->name, K_COLOR_TAG))
+            	{
+            		xmlNode* textNode = statusNode->children;
+            		BString nodeText = GetNodeText(textNode);
+            		status->SetStatusColour(Common::ColorFromString(nodeText));
+            	}            	
+            }
+            statusses.push_back(status);
+      	}
+	}
 	return statusses;
 }
 
@@ -108,5 +160,58 @@ vector<Emoticon*> IconTheme::ParseEmoticons(xmlNode *emoticonsNode)
 {
 	vector<Emoticon*> emoticons;
 	//parse all emoticon xml into objects
+	xmlChar* K_EMOTICON_TAG = xmlCharStrdup("emoticon");
+	xmlChar* K_ICON_TAG = xmlCharStrdup("icon");
+	xmlChar* K_NAME_TAG = xmlCharStrdup("name");
+	xmlChar* K_TEXT_TAG = xmlCharStrdup("text");
+	
+	for (cur_node = emoticonsNode->children; cur_node; cur_node = cur_node->next)
+	{
+		if (cur_node->type == XML_ELEMENT_NODE && xmlStrEqual(emoticonsNode->name, K_EMOTICON_TAG) 
+   	 	{
+   	 		Emoticon *emoticon = new Emoticon();
+   	 		//loop through children of <emoticon> tags
+   	 		for (emoticonNode = cur_node->children; emoticonNode; emoticonNode = emoticonNode->next)
+			{	   	 		
+	   	 		if (xmlStrEqual(emoticonNode->name, K_ICON_TAG))
+	        	{
+	        		xmlNode* textNode = emoticonNode->children;
+	        		BString nodeText = GetNodeText(textNode);
+	        		emoticon->AddIcon(GetIconBitmap(nodeText));
+	        	}
+	        	else if (xmlStrEqual(emoticonNode->name, K_NAME_TAG))
+	        	{
+	        		xmlNode* textNode = emoticonNode->children;
+	        		BString nodeText = GetNodeText(textNode);
+	        		emoticon->SetName(nodeText);
+	        	}
+	        	else if (xmlStrEqual(emoticonNode->name, K_TEXT_TAG))
+	        	{
+	        		xmlNode* textNode = emoticonNode->children;
+	        		BString nodeText = GetNodeText(textNode);
+	        		emoticon->AddText(nodeText);
+	        	}   
+	        }
+	        m_emoticons.push_back(emoticon);         	
+   	 	}
+	}	
 	return emoticons;
 }
+
+BString IconTheme::GetNodeText(xmlNode *node)
+{
+	BString nodeText;
+	if (textNode->type == XML_TEXT_NODE)
+	{
+	}
+	return nodeText;
+}
+
+BBitmap* IconTheme::GetIconBitmap(BString path)
+{
+	//get icon file relative to theme path
+	m_themePath.Append(path.String());	
+	BBitmap *icon = BTranslationUtils::GetBitmap(bitmapPath.Path());
+	return icon;
+}
+	

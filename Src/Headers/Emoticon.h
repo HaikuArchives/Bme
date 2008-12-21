@@ -7,18 +7,30 @@
 #ifndef EMOTICON_H
 #define EMOTICON_H
 
+#include <interface/Bitmap.h>
 #include <support/String.h>
-#include <support/List.h>
+#include <vector>
 
-//make sure these emoticons will be deleted at the end...
-//maybe object with destructor
-struct Emoticon
+class Emoticon
 {
-	BList				m_stringRepresentations,
-						m_bitmaps;
-						
-	BString				m_iconPath,
-						m_description;
+	public:
+		Emoticon();
+		virtual				~Emoticon();
+		
+		void				AddIcon(BBitmap *icon);
+		vector<BBitmap*>	Icons();
+		
+		void				SetName(BString name);
+		BString				Name();
+		
+		void				AddText(BString text);
+		vector<BString>		GetTextRepresentations();
+	
+	private:
+		vector<BBitmap*>	m_icons;
+		vector<BString>		m_textRepresentations;
+								
+		BString				m_name;
 };
 
 #endif

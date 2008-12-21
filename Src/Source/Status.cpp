@@ -12,6 +12,11 @@
 #include <be/support/ClassInfo.h>
 #include "ProtocolConstants.h"
 
+Status::Status()
+			:	BArchivable();
+{
+}
+
 /**	Constructor
 	@param statName,
 	@param statAbbr,
@@ -65,12 +70,22 @@ Status::~Status()
 	}
 }
 
+void Status::SetStatusName(BString name)
+{
+	m_statusName = name;
+}
+
 /**	Get the user readable name of this status.
 	@return a human readable status name.
  */
 BString Status::GetStatusName() 
 {
 	return m_statusName;
+}
+
+void Status::SetAbbreviation(BString abbreviation)
+{
+	m_statusAbbreviation = abbreviation;
 }
 
 /**	Gets the abbreviation for this status. This abbreviation is
@@ -107,6 +122,12 @@ void Status::AddIcon(BBitmap *statusIcon)
 bool Status::IsOnline() const
 { 	
 	return m_statusAbbreviation != Statusses::K_OFFLINE;
+}
+
+
+void Status::SetUserChoice(bool userChoice)
+{
+	m_userChoice = userChoice;
 }
 
 /**	Returns if this status is a status that can be chosen by the user.

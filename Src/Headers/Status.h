@@ -20,17 +20,23 @@
 class Status : public BArchivable
 {
 	public:
+		Status();
 		Status(BString statusName, BString statusAbbr, BBitmap* icon, bool usrChoice, rgb_color statusColour);
 		Status(BMessage* archive);
 		virtual				~Status();
 		
+		void				SetStatusName(BString name);
 		BString				GetStatusName();		
+		
+		void				SetAbbreviation(BString abbreviation);
 		BString				GetAbbreviation();		
 		
 		BBitmap*			GetStatusIcon(int32 width = 18);		
 		void				AddIcon(BBitmap *statusIcon);
-		
+
 		bool				IsOnline() const;
+		
+		void				SetUserChoice(bool userChoice);
 		bool				IsUserChoice() const;
 		
 		void				SetStatusColour(rgb_color colour);

@@ -37,6 +37,8 @@ namespace Common
 	vector<BString>		Readlines(const BString& string, BString endlineSeparator);
 	BString				ReadKeyValue(const BString& string, BString key, BString beginSeparator, BString endSeparator);
 	BString				ReplaceParam(const BString& string, int32 replaceIndex, BString replacement);
+	
+	rgb_color			ColorFromString(BString colorString);
 };
 
 #endif

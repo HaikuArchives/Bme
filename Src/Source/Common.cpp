@@ -296,3 +296,40 @@ BString Common::ReplaceParam(const BString& string, int32 replaceIndex, BString 
 	return replacedString;
 }
 
+rgb_color Common::ColorFromString(BString colorString)
+{
+	rgb_color statusColor;
+	//remove brackets from colourString
+	colorString.RemoveAll("{");						
+	colorString.RemoveAll("}");
+	
+	int32 colors[4];
+	int32 startIndex = 0;						
+	for (int i = 0; i < 4; i++)
+	{
+		int32 commaIndex = colorString.FindFirst(",",startIndex);							
+		if (commaIndex != B_ERROR)
+		{
+			BString colorValue;
+			colorString.CopyInto(colorValue,startIndex, commaIndex-startIndex);
+			colors[i] = atoi(colorValue.String());
+			startIndex = commaIndex + 1;
+		}
+		else if (i < 3)
+		{								
+			BString colorValue;								
+			colorString.CopyInto(colorValue, startIndex, colorString.CountChars() - startIndex);
+			colors[i] = atoi(colorValue.String());								
+		}		
+		else if (i == 3)
+		{
+			colors[i] = 255;
+		}						
+	}
+	//construct status colour	
+	statusColor.red = colors[0];
+	statusColor.green = colors[1];
+	statusColor.blue = colors[2];
+	statusColor.alpha = colors[3];
+	return statusColor;
+}
